@@ -1,0 +1,2527 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Paradoxican Technologies — IT Services, Consulting & Dynamic Security Core</title>
+<!-- Tailwind CSS for rich modern spacing and utility layouts -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Font integrations -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+
+<!-- Custom configurations for Tailwind -->
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        fontFamily: {
+          inter: ['Inter', 'sans-serif'],
+          mono: ['Fira Code', 'monospace'],
+        },
+      }
+    }
+  }
+</script>
+
+<style>
+  :root {
+    --signal:      #4D9FFF;
+    --signal-2:    #7EC8FF;
+    --signal-dim:  rgba(77,159,255,0.10);
+    --signal-glow: rgba(77,159,255,0.30);
+    --mist-border: rgba(77,159,255,0.15);
+    --void:        #020810;
+    --surface:     rgba(5,12,26,0.70);
+    --text-primary:#E8F2FF;
+    --text-muted:  #94a8c8;
+  }
+  .theme-green { --signal:#10B981; --signal-2:#34D399; --signal-dim:rgba(16,185,129,0.10); --signal-glow:rgba(16,185,129,0.30); --mist-border:rgba(16,185,129,0.15); }
+  .theme-purple { --signal:#8B5CF6; --signal-2:#A78BFA; --signal-dim:rgba(139,92,246,0.10); --signal-glow:rgba(139,92,246,0.30); --mist-border:rgba(139,92,246,0.15); }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    background-color: var(--void);
+    color: var(--text-primary);
+    font-family: 'Inter', sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1 { font-size: clamp(1.85rem, 4.5vw, 2.9rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.01em; color: #fff; margin: 0 0 1rem; }
+  h2 { font-size: clamp(1.3rem, 3vw, 2rem); font-weight: 600; line-height: 1.2; letter-spacing: -0.01em; color: #fff; margin: 0 0 0.75rem; }
+  h3 { font-size: 1.1rem; font-weight: 600; line-height: 1.35; color: #fff; margin: 0 0 0.5rem; }
+  h4 { font-size: 1rem; font-weight: 600; line-height: 1.4; color: #e2eaff; margin: 0 0 0.35rem; }
+  p  { font-size: 1rem; line-height: 1.8; color: var(--text-muted); margin: 0; }
+  p + p { margin-top: 0.9rem; }
+
+  .eyebrow {
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--signal);
+    margin-bottom: 0.6rem;
+  }
+
+  #matrix-bg { position:fixed; top:0; left:0; width:100vw; height:100vh; z-index:-2; pointer-events:none; opacity:0.45; }
+
+  .glass-panel {
+    background: var(--surface);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--mist-border);
+    border-radius: 16px;
+  }
+  .glass-card {
+    background: rgba(2,8,16,0.80);
+    border: 1px solid var(--mist-border);
+    border-radius: 16px;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .glass-card:hover { border-color: var(--signal); box-shadow: 0 8px 32px rgba(0,0,0,0.45), 0 0 18px var(--signal-dim); }
+
+  .btn-primary {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: var(--signal); color: #020810;
+    font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 700;
+    padding: 0.85rem 2rem; border-radius: 12px; border: none; cursor: pointer;
+    transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+    text-decoration: none; white-space: nowrap;
+  }
+  .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 0 24px var(--signal-glow); }
+  .btn-ghost {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    background: transparent; color: #e2eaff;
+    font-family: 'Inter', sans-serif; font-size: 0.95rem; font-weight: 600;
+    padding: 0.85rem 2rem; border-radius: 12px; border: 1px solid var(--mist-border); cursor: pointer;
+    transition: border-color 0.2s, background 0.2s; text-decoration: none;
+  }
+  .btn-ghost:hover { border-color: var(--signal); background: var(--signal-dim); }
+
+  .nav-link { font-family:'Inter',sans-serif; font-size:0.9rem; font-weight:500; color:#b0c4de; text-decoration:none; transition:color 0.2s; cursor:pointer; }
+  .nav-link:hover, .nav-link.active { color:#fff; }
+
+  .tag { font-size:0.7rem; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; padding:3px 10px; border-radius:20px; background:var(--signal-dim); color:var(--signal-2); border:1px solid var(--mist-border); }
+  .step-num { font-size:1.5rem; font-weight:800; color:var(--signal); line-height:1; margin-bottom:0.5rem; }
+
+  input, textarea, select {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 0.95rem !important;
+    line-height: 1.6 !important;
+    padding: 0.7rem 1rem !important;
+    background: rgba(2,8,16,0.80);
+    border: 1px solid var(--mist-border);
+    border-radius: 10px; color: #fff; width: 100%;
+    transition: border-color 0.2s; outline: none; -webkit-appearance: none;
+  }
+  input:focus, textarea:focus, select:focus { border-color: var(--signal); }
+  label { font-size: 0.82rem; font-weight: 600; color: #b0c4de; letter-spacing: 0.04em; text-transform: uppercase; display: block; margin-bottom: 6px; }
+  select option { background: #0d1829; }
+
+  .faq-content p { font-size: 0.95rem; line-height: 1.8; color: var(--text-muted); padding: 0 1.5rem 1.25rem; margin:0; }
+
+  .view-container { display:none; opacity:0; transform:translateY(8px); transition:opacity 0.4s ease, transform 0.4s ease; }
+  .view-container.active-view { display:block; opacity:1; transform:translateY(0); }
+
+  @keyframes slide-certs { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+  .animate-slide-certs { display:flex; width:max-content; animation:slide-certs 30s linear infinite; }
+  @keyframes spin { to{transform:rotate(360deg)} }
+
+  ::-webkit-scrollbar { width:6px; }
+  ::-webkit-scrollbar-track { background:var(--void); }
+  ::-webkit-scrollbar-thumb { background:var(--mist-border); border-radius:3px; }
+  ::-webkit-scrollbar-thumb:hover { background:var(--signal); }
+
+  section { scroll-margin-top: 80px; }
+
+  @media (max-width:640px) { h1{font-size:1.9rem;} h2{font-size:1.4rem;} }
+  @media (min-width:1024px) and (max-width:1280px) { .nav-link{font-size:0.82rem;} }
+</style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+<!-- ── STREAMING_CHUNK: Adding visual background layers ── -->
+<canvas id="matrix-bg"></canvas><!-- matrix opacity reduced via CSS -->
+
+<!-- Background Ambient Glowing Orbs -->
+<div class="fixed top-[-10%] left-[-10%] w-[600px] h-[600px] rounded-full blur-[150px] pointer-events-none opacity-20 bg-[radial-gradient(circle,var(--signal)_0%,transparent_70%)] z-[-1]"></div>
+<div class="fixed bottom-[10%] right-[-10%] w-[600px] h-[600px] rounded-full blur-[150px] pointer-events-none opacity-20 bg-[radial-gradient(circle,var(--signal)_0%,transparent_70%)] z-[-1]"></div>
+
+<!-- Preloader -->
+<div id="preloader" class="fixed inset-0 bg-[#020810] z-[9999] flex flex-col justify-center items-center gap-4">
+  <div style="width:48px;height:48px;border:3px solid var(--mist-border);border-top-color:var(--signal);border-radius:50%;animation:spin 0.8s linear infinite;"></div>
+  <p style="font-size:0.9rem;color:var(--text-muted);margin:0;">Loading Paradoxican…</p>
+</div>
+
+<!-- Theme switcher removed -->
+
+<!-- ── STREAMING_CHUNK: Interactive Live Chat Mock Widget ── -->
+<div class="fixed bottom-6 right-6 z-[999] flex flex-col items-end" style="padding-bottom: env(safe-area-inset-bottom, 0px);">
+  <div id="chat-window" class="hidden w-[90vw] max-w-[350px] h-[450px] mb-4 glass-panel border border-[var(--mist-border)] rounded-xl shadow-[0_15px_40px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden">
+    <!-- Chat Header -->
+    <div class="bg-slate-950 px-4 py-3 border-b border-[var(--mist-border)] flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="relative w-8 h-8 rounded-full overflow-hidden border border-[var(--signal)] bg-slate-900 flex items-center justify-center">
+          <img class="w-full h-full object-cover" src="WhatsApp%20Image%202026-06-23%20at%203.35.18%20PM.jpeg" alt="Paradoxican Chat Mascot" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';" />
+          <span class="hidden font-bold text-xs text-[var(--signal)]">PX</span>
+        </div>
+        <div>
+          <h4 class="font-inter text-xs font-bold leading-none">Paradoxican Support</h4>
+          <span style="font-size:0.75rem;color:#34d399;">● Online — replies instantly</span>
+        </div>
+      </div>
+      <button onclick="toggleChat()" class="text-slate-400 hover:text-white">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <!-- Chat Body -->
+    <div id="chat-messages" class="flex-1 p-4 overflow-y-auto space-y-3 font-inter" style="font-size:0.875rem;">
+      <div class="bg-slate-900/60 p-3 rounded-lg border border-[var(--mist-border)] max-w-[85%] self-start text-slate-200">
+        Hi there! 👋 How can we help you today? Pick an option below or just ask us anything.
+      </div>
+    </div>
+    <!-- Chat Actions -->
+    <div class="p-3 border-t border-[var(--mist-border)] bg-slate-950 flex flex-col gap-2">
+      <button onclick="sendPrompt('audit')" class="w-full text-left bg-slate-900 hover:bg-[var(--signal-dim)] border border-[var(--mist-border)] hover:border-[var(--signal)] text-slate-300 px-3 py-2 rounded-lg transition-all duration-200">
+        🔒 Get a free security audit
+      </button>
+      <button onclick="sendPrompt('estimator')" class="w-full text-left bg-slate-900 hover:bg-[var(--signal-dim)] border border-[var(--mist-border)] hover:border-[var(--signal)] text-slate-300 px-3 py-2 rounded-lg transition-all duration-200">
+        💰 Estimate project cost &amp; ROI
+      </button>
+      <button onclick="sendPrompt('consulting')" class="w-full text-left bg-slate-900 hover:bg-[var(--signal-dim)] border border-[var(--mist-border)] hover:border-[var(--signal)] text-slate-300 px-3 py-2 rounded-lg transition-all duration-200">
+        📞 Speak with our team
+      </button>
+    </div>
+  </div>
+  <!-- Floating Button -->
+  <button onclick="toggleChat()" class="w-14 h-14 bg-slate-900 hover:bg-slate-950 border border-[var(--signal)] hover:scale-105 active:scale-95 text-[var(--signal)] rounded-full flex items-center justify-center shadow-[0_5px_25px_var(--signal-glow)] transition-all duration-300">
+    <svg class="w-6 h-6 animate-pulse" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 12a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375M21 12c0 4.556-4.03 8.25-9 8.25a9.764 9.764 0 01-2.555-.337A5.972 5.972 0 015.41 20.97a5.969 5.969 0 01-.474-.065 4.48 4.48 0 00.978-2.025c.09-.457-.133-.901-.467-1.226C3.93 16.178 3 14.189 3 12c0-4.556 4.03-8.25 9-8.25s9 3.694 9 8.25z"/></svg>
+  </button>
+</div>
+
+<!-- ── STREAMING_CHUNK: Dynamic Logo Fallback Handler ── -->
+<script>
+  function handleLogoError(imgElement) {
+    console.warn("Brand logo asset unresolved. Swapping to clean inline SVG vector.");
+    const fallbackSVG = `
+      <svg class="logo-icon w-8 h-8 text-[var(--signal)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9 9 0 100-18 9 9 0 000 18z"/>
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 12m-3 0a3 3 0 106 0 3 3 0 00-6 0z"/>
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18M3 12h18"/>
+      </svg>
+    `;
+    const wrapper = imgElement.parentElement;
+    if (wrapper) {
+      imgElement.style.display = 'none';
+      const template = document.createElement('div');
+      template.innerHTML = fallbackSVG;
+      wrapper.insertBefore(template.firstElementChild, imgElement);
+    }
+  }
+</script>
+
+<!-- ── STREAMING_CHUNK: Navigation & Header ── -->
+<nav class="fixed top-0 left-0 w-full z-[100] border-b border-[var(--mist-border)] bg-slate-950/85 backdrop-blur-md" style="height:68px;">
+  <div class="max-w-7xl mx-auto px-6 h-full flex justify-between items-center">
+
+    <!-- Logo wordmark — Deloitte style -->
+    <a href="#home" onclick="navigateTo('#home')" class="flex items-center flex-shrink-0" style="text-decoration:none;">
+      <span style="display:inline-flex;align-items:baseline;gap:3px;">
+        <span style="font-family:'Inter',sans-serif;font-size:1.2rem;font-weight:700;letter-spacing:-0.02em;color:#ffffff;line-height:1;">Paradoxican</span>
+        <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--signal);flex-shrink:0;margin-bottom:1px;"></span>
+      </span>
+    </a>
+    
+    <!-- Navigation Options -->
+    <div class="hidden lg:flex items-center gap-4 xl:gap-8 font-inter text-sm">
+      <a class="nav-link active cursor-pointer" onclick="navigateTo('#home')" id="nav-home">Home</a>
+      <a class="nav-link cursor-pointer" onclick="navigateTo('#about-us')" id="nav-about-us">About Us</a>
+      
+      <!-- Services Mega Dropdown -->
+      <div class="relative group">
+        <button class="flex items-center gap-1 nav-link font-medium" id="nav-services">
+          Services
+          <svg class="w-4 h-4 transition-transform duration-200 group-hover:rotate-180" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+        </button>
+
+        <!-- Mega menu panel -->
+        <div class="absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2 w-[540px] glass-panel rounded-2xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 shadow-[0_24px_48px_rgba(0,0,0,0.7)] overflow-hidden">
+
+          <!-- Header strip -->
+          <div class="px-5 py-3 border-b border-[var(--mist-border)] flex items-center justify-between">
+            <span class="text-xs font-semibold text-[var(--signal)] tracking-widest uppercase">All Services</span>
+            <span class="text-xs text-slate-500">6 specialisations</span>
+          </div>
+
+          <!-- 2-column grid -->
+          <div class="grid grid-cols-2 gap-px p-3">
+
+            <a onclick="navigateTo('#cybersecurity')" class="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-800/60 transition-colors cursor-pointer group/item">
+              <div class="w-8 h-8 rounded-lg bg-[var(--signal-dim)] border border-[var(--mist-border)] flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-4 h-4 text-[var(--signal)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-white leading-tight group-hover/item:text-[var(--signal)] transition-colors">Cybersecurity</p>
+                <p class="text-xs text-slate-400 mt-0.5 leading-snug">SOC testing & threat protection</p>
+              </div>
+            </a>
+
+            <a onclick="navigateTo('#it-consulting')" class="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-800/60 transition-colors cursor-pointer group/item">
+              <div class="w-8 h-8 rounded-lg bg-[var(--signal-dim)] border border-[var(--mist-border)] flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-4 h-4 text-[var(--signal)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0H21m-1.5 0v11.25A2.25 2.25 0 0117.25 16.5H15m-6 0v4.5m0 0H7.5m1.5 0h3M12 12.75h.008v.008H12v-.008z"/></svg>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-white leading-tight group-hover/item:text-[var(--signal)] transition-colors">IT Strategy & Consulting</p>
+                <p class="text-xs text-slate-400 mt-0.5 leading-snug">vCTO advisory & roadmaps</p>
+              </div>
+            </a>
+
+            <a onclick="navigateTo('#managed-it')" class="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-800/60 transition-colors cursor-pointer group/item">
+              <div class="w-8 h-8 rounded-lg bg-[var(--signal-dim)] border border-[var(--mist-border)] flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-4 h-4 text-[var(--signal)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.83-5.83m-4.32-1.34a6 6 0 11-3.6-3.6"/></svg>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-white leading-tight group-hover/item:text-[var(--signal)] transition-colors">Managed IT Support</p>
+                <p class="text-xs text-slate-400 mt-0.5 leading-snug">Devices, patching & helpdesk</p>
+              </div>
+            </a>
+
+            <a onclick="navigateTo('#software-dev')" class="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-800/60 transition-colors cursor-pointer group/item">
+              <div class="w-8 h-8 rounded-lg bg-[var(--signal-dim)] border border-[var(--mist-border)] flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-4 h-4 text-[var(--signal)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"/></svg>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-white leading-tight group-hover/item:text-[var(--signal)] transition-colors">Custom Software Dev</p>
+                <p class="text-xs text-slate-400 mt-0.5 leading-snug">Web apps & SaaS products</p>
+              </div>
+            </a>
+
+            <a onclick="navigateTo('#cloud-services')" class="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-800/60 transition-colors cursor-pointer group/item">
+              <div class="w-8 h-8 rounded-lg bg-[var(--signal-dim)] border border-[var(--mist-border)] flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-4 h-4 text-[var(--signal)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 5.25 5.25 0 00-10.338-2.32 3.75 3.75 0 00-4.994 3.577z"/></svg>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-white leading-tight group-hover/item:text-[var(--signal)] transition-colors">Cloud Infrastructure</p>
+                <p class="text-xs text-slate-400 mt-0.5 leading-snug">AWS, Azure & Kubernetes</p>
+              </div>
+            </a>
+
+            <a onclick="navigateTo('#data-analytics')" class="flex items-start gap-3 p-3 rounded-xl hover:bg-slate-800/60 transition-colors cursor-pointer group/item">
+              <div class="w-8 h-8 rounded-lg bg-[var(--signal-dim)] border border-[var(--mist-border)] flex items-center justify-center flex-shrink-0 mt-0.5">
+                <svg class="w-4 h-4 text-[var(--signal)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"/></svg>
+              </div>
+              <div>
+                <p class="text-sm font-semibold text-white leading-tight group-hover/item:text-[var(--signal)] transition-colors">Data Engineering</p>
+                <p class="text-xs text-slate-400 mt-0.5 leading-snug">Pipelines, analytics & insights</p>
+              </div>
+            </a>
+
+          </div>
+
+          <!-- Footer CTA -->
+          <div class="px-5 py-3 border-t border-[var(--mist-border)] flex items-center justify-between bg-slate-950/40">
+            <span class="text-xs text-slate-400">Not sure which service you need?</span>
+            <a onclick="navigateTo('#contact')" class="text-xs font-semibold text-[var(--signal)] hover:text-white transition-colors cursor-pointer">Talk to us →</a>
+          </div>
+
+        </div>
+      </div>
+
+      <a class="nav-link cursor-pointer" onclick="navigateTo('#career')" id="nav-career">Career</a>
+      <a class="nav-link cursor-pointer" onclick="navigateTo('#blog')" id="nav-blog">Blog</a>
+      <a class="nav-link cursor-pointer" onclick="navigateTo('#contact')" id="nav-contact">Contact</a>
+      <a onclick="navigateTo('#contact')" class="bg-[var(--signal-dim)] text-[var(--signal-2)] border border-[var(--mist-border)] hover:bg-[var(--signal)] hover:text-slate-900 hover:border-[var(--signal)] btn-primary cursor-pointer" style="padding:0.5rem 1.25rem;font-size:0.85rem;">Get Started</a>
+    </div>
+
+    <!-- Burger Button -->
+    <button onclick="toggleMobileMenu()" class="lg:hidden text-slate-300 hover:text-white flex items-center">
+      <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+    </button>
+  </div>
+
+  <!-- Mobile Dropdown Panel -->
+  <div id="mobile-menu" class="hidden absolute left-0 w-full bg-slate-950/95 border-b border-[var(--mist-border)] p-6 space-y-4 font-inter text-sm flex flex-col backdrop-blur-lg" style="top:68px;">
+    <a onclick="navigateTo('#home'); toggleMobileMenu()" class="nav-link py-2 block">Home</a>
+    <a onclick="navigateTo('#about-us'); toggleMobileMenu()" class="nav-link py-2 block">About Us</a>
+
+    <!-- Services group -->
+    <div>
+      <p class="text-xs font-semibold text-[var(--signal)] uppercase tracking-widest mb-2 mt-1">Services</p>
+      <div class="grid grid-cols-2 gap-1 pl-1">
+        <a onclick="navigateTo('#cybersecurity'); toggleMobileMenu()" class="flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-slate-800/60 transition-colors cursor-pointer">
+          <svg class="w-4 h-4 text-[var(--signal)] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+          <span class="text-sm text-slate-200">Cybersecurity</span>
+        </a>
+        <a onclick="navigateTo('#it-consulting'); toggleMobileMenu()" class="flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-slate-800/60 transition-colors cursor-pointer">
+          <svg class="w-4 h-4 text-[var(--signal)] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0H21"/></svg>
+          <span class="text-sm text-slate-200">IT Consulting</span>
+        </a>
+        <a onclick="navigateTo('#managed-it'); toggleMobileMenu()" class="flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-slate-800/60 transition-colors cursor-pointer">
+          <svg class="w-4 h-4 text-[var(--signal)] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.83-5.83m-4.32-1.34a6 6 0 11-3.6-3.6"/></svg>
+          <span class="text-sm text-slate-200">Managed IT</span>
+        </a>
+        <a onclick="navigateTo('#software-dev'); toggleMobileMenu()" class="flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-slate-800/60 transition-colors cursor-pointer">
+          <svg class="w-4 h-4 text-[var(--signal)] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25"/></svg>
+          <span class="text-sm text-slate-200">Software Dev</span>
+        </a>
+        <a onclick="navigateTo('#cloud-services'); toggleMobileMenu()" class="flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-slate-800/60 transition-colors cursor-pointer">
+          <svg class="w-4 h-4 text-[var(--signal)] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 5.25 5.25 0 00-10.338-2.32 3.75 3.75 0 00-4.994 3.577z"/></svg>
+          <span class="text-sm text-slate-200">Cloud Services</span>
+        </a>
+        <a onclick="navigateTo('#data-analytics'); toggleMobileMenu()" class="flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-slate-800/60 transition-colors cursor-pointer">
+          <svg class="w-4 h-4 text-[var(--signal)] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"/></svg>
+          <span class="text-sm text-slate-200">Data Engineering</span>
+        </a>
+      </div>
+    </div>
+
+    <a onclick="navigateTo('#career'); toggleMobileMenu()" class="nav-link py-2 block">Career</a>
+    <a onclick="navigateTo('#blog'); toggleMobileMenu()" class="nav-link py-2 block">Blog</a>
+    <a onclick="navigateTo('#contact'); toggleMobileMenu()" class="nav-link py-2 block">Contact</a>
+  </div>
+</nav>
+
+<!-- ── STREAMING_CHUNK: Main App SPA Layout ── -->
+<main class="flex-1" style="margin-top:68px;">
+
+  <!-- ==================== VIEW: HOME ==================== -->
+  <div id="home" class="view-container active-view">
+
+    <!-- Hero -->
+    <section class="relative min-h-[88vh] flex flex-col justify-center items-center text-center px-6 pt-10 pb-20 overflow-hidden">
+
+      <!-- Subtle radial glow behind heading -->
+      <div style="position:absolute;top:30%;left:50%;transform:translate(-50%,-50%);width:700px;height:400px;background:radial-gradient(ellipse at center,rgba(77,159,255,0.10) 0%,transparent 70%);pointer-events:none;"></div>
+
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 border border-[var(--mist-border)] bg-slate-900/60 backdrop-blur rounded-full px-4 py-1.5 mb-8">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--signal);display:inline-block;animation:pulse 2s infinite;"></span>
+        <span style="font-size:0.72rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:var(--signal-2);">Trusted IT Partner for Growing Businesses</span>
+      </div>
+
+      <!-- Heading -->
+      <h1 class="font-inter mb-6" style="font-size:clamp(2.2rem,5.5vw,3.75rem);font-weight:700;line-height:1.12;letter-spacing:-0.02em;max-width:820px;">
+        We Protect, Build &amp; <br class="hidden sm:block"/>
+        <span style="color:var(--signal);">Scale Your Business.</span>
+      </h1>
+
+      <!-- Sub-text -->
+      <p style="font-size:1.1rem;line-height:1.8;color:var(--text-muted);max-width:580px;margin:0 auto 2.5rem;">
+        From cybersecurity and cloud infrastructure to custom software — we handle the technical heavy lifting so you can focus on growing your business.
+      </p>
+
+      <!-- CTA Buttons -->
+      <div class="flex flex-wrap justify-center gap-4 mb-16">
+        <a onclick="navigateTo('#contact')" class="btn-primary" style="font-size:1rem;padding:0.9rem 2.25rem;">
+          Talk to Our Team
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+        </a>
+        <a onclick="navigateTo('#sandbox')" class="btn-ghost" style="font-size:1rem;padding:0.9rem 2.25rem;">
+          See Live Demo
+        </a>
+      </div>
+
+      <!-- Stats row -->
+      <div class="flex flex-wrap justify-center gap-px rounded-2xl overflow-hidden border border-[var(--mist-border)] bg-[var(--mist-border)]" style="max-width:640px;margin:0 auto;">
+        <div class="flex flex-col items-center px-8 py-5 bg-slate-950/80 flex-1 min-w-[130px]">
+          <span style="font-size:1.75rem;font-weight:700;color:#fff;line-height:1;">50+</span>
+          <span style="font-size:0.72rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-top:4px;">Clients Served</span>
+        </div>
+        <div class="flex flex-col items-center px-8 py-5 bg-slate-950/80 flex-1 min-w-[130px]">
+          <span style="font-size:1.75rem;font-weight:700;color:#fff;line-height:1;">99.9%</span>
+          <span style="font-size:0.72rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-top:4px;">Uptime SLA</span>
+        </div>
+        <div class="flex flex-col items-center px-8 py-5 bg-slate-950/80 flex-1 min-w-[130px]">
+          <span style="font-size:1.75rem;font-weight:700;color:#fff;line-height:1;">&lt;15 min</span>
+          <span style="font-size:0.72rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-top:4px;">Threat Response</span>
+        </div>
+        <div class="flex flex-col items-center px-8 py-5 bg-slate-950/80 flex-1 min-w-[130px]">
+          <span style="font-size:1.75rem;font-weight:700;color:#fff;line-height:1;">6</span>
+          <span style="font-size:0.72rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--text-muted);margin-top:4px;">Core Services</span>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ── STREAMING_CHUNK: Custom Team Credentials Carousel ── -->
+    <div class="border-y border-[var(--mist-border)] bg-slate-950/50 py-10 overflow-hidden">
+      <div class="max-w-7xl mx-auto px-6 mb-4 text-center">
+        <span class="text-xs uppercase tracking-[0.2em] font-inter font-bold text-slate-500">Industry Certifications &amp; Accreditations</span>
+      </div>
+      <div class="relative w-full overflow-hidden flex">
+        <div class="animate-slide-certs">
+          <!-- Cert 1 -->
+          <div class="flex items-center gap-2 mx-16 text-slate-300 font-inter font-bold text-sm">
+            <svg class="w-6 h-6 text-[var(--signal)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12z"/></svg>
+            SOC 2 Type II Certified
+          </div>
+          <!-- Cert 2 -->
+          <div class="flex items-center gap-2 mx-16 text-slate-300 font-inter font-bold text-sm">
+            <svg class="w-6 h-6 text-[var(--signal)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12.225 12.17l1.951-1.951m0 0l-1.951-1.951m1.951 1.951H6.75"/></svg>
+            OSCP Certified Penetration
+          </div>
+          <!-- Cert 3 -->
+          <div class="flex items-center gap-2 mx-16 text-slate-300 font-inter font-bold text-sm">
+            <svg class="w-6 h-6 text-[var(--signal)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+            CISSP Threat Management
+          </div>
+          <!-- Cert 4 -->
+          <div class="flex items-center gap-2 mx-16 text-slate-300 font-inter font-bold text-sm">
+            <svg class="w-6 h-6 text-[var(--signal)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9s2.015-9 4.5-9"/></svg>
+            AWS Solutions Architect
+          </div>
+        </div>
+        <!-- Duplicated Track for seamless scroll -->
+        <div class="animate-slide-certs" aria-hidden="true">
+          <div class="flex items-center gap-2 mx-16 text-slate-300 font-inter font-bold text-sm">
+            <svg class="w-6 h-6 text-[var(--signal)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12z"/></svg>
+            SOC 2 Type II Certified
+          </div>
+          <div class="flex items-center gap-2 mx-16 text-slate-300 font-inter font-bold text-sm">
+            <svg class="w-6 h-6 text-[var(--signal)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12.225 12.17l1.951-1.951m0 0l-1.951-1.951m1.951 1.951H6.75"/></svg>
+            OSCP Certified Penetration
+          </div>
+          <div class="flex items-center gap-2 mx-16 text-slate-300 font-inter font-bold text-sm">
+            <svg class="w-6 h-6 text-[var(--signal)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z"/></svg>
+            CISSP Threat Management
+          </div>
+          <div class="flex items-center gap-2 mx-16 text-slate-300 font-inter font-bold text-sm">
+            <svg class="w-6 h-6 text-[var(--signal)]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9s2.015-9 4.5-9"/></svg>
+            AWS Solutions Architect
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── STREAMING_CHUNK: Core Interactive Lab Section ── -->
+    <section id="labs-sec" class="max-w-7xl mx-auto px-6 py-24 border-b border-[var(--mist-border)]">
+      <div class="text-center mb-16">
+        <span class="eyebrow">Tools to Help You Decide</span>
+        <h2 class="font-inter">Explore Our Capabilities</h2>
+        <p class="text-slate-300 max-w-xl mx-auto mt-4 text-base font-inter">Use our interactive tools to estimate costs, check your security posture, and see the real value we can deliver for your business.</p>
+      </div>
+
+      <!-- Laboratory Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-stretch">
+        
+        <!-- Lab 1: Interactive ROI & Cost Estimator -->
+        <div class="glass-panel p-8 rounded-2xl border border-[var(--mist-border)] flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-[var(--mist-border)] pb-4 mb-6">
+              <h3 class="font-inter font-bold text-xl text-white">Cost &amp; ROI Estimator</h3>
+              <span class="tag">FREE TOOL</span>
+            </div>
+            
+            <div class="space-y-6">
+              <!-- Infrastructure Size Slider -->
+              <div>
+                <div class="flex justify-between items-center mb-2">
+                  <label class="text-xs font-bold text-slate-300 uppercase tracking-wider">How large is your infrastructure?</label>
+                  <span id="scale-val" class="text-sm font-semibold text-[var(--signal)]">50 Servers</span>
+                </div>
+                <input type="range" id="cloud-scale" min="10" max="500" value="50" oninput="calculateEstimates()" class="w-full accent-[var(--signal)] h-2 bg-slate-950 rounded-lg appearance-none cursor-pointer" />
+              </div>
+
+              <!-- Core Domain Segment selection -->
+              <div>
+                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">What service are you interested in?</label>
+                <div class="grid grid-cols-3 gap-2">
+                  <button id="est-cybersec" onclick="setEstimatorService('cybersec')" class="est-srv-btn py-2.5 rounded-lg text-xs font-inter font-bold border border-[var(--signal)] bg-[var(--signal-dim)] text-[var(--signal-2)] transition-all">Cybersecurity</button>
+                  <button id="est-cloud" onclick="setEstimatorService('cloud')" class="est-srv-btn py-2.5 rounded-lg text-xs font-inter font-bold border border-[var(--mist-border)] text-slate-400 hover:border-[var(--signal)] transition-all">Cloud Systems</button>
+                  <button id="est-saas" onclick="setEstimatorService('saas')" class="est-srv-btn py-2.5 rounded-lg text-xs font-inter font-bold border border-[var(--mist-border)] text-slate-400 hover:border-[var(--signal)] transition-all">SaaS Dev</button>
+                </div>
+              </div>
+
+              <!-- SLA Reliability Option selection -->
+              <div>
+                <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-2">What uptime level do you need?</label>
+                <div class="grid grid-cols-2 gap-2">
+                  <button id="est-sla-std" onclick="setEstimatorSLA('standard')" class="est-sla-btn py-2.5 rounded-lg text-xs font-inter font-bold border border-[var(--signal)] bg-[var(--signal-dim)] text-[var(--signal-2)] transition-all">Standard (99.9% uptime)</button>
+                  <button id="est-sla-ha" onclick="setEstimatorSLA('ha')" class="est-sla-btn py-2.5 rounded-lg text-xs font-inter font-bold border border-[var(--mist-border)] text-slate-400 hover:border-[var(--signal)] transition-all">High Availability (99.999%)</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Computed Output Block -->
+          <div class="bg-slate-950/80 p-6 rounded-xl border border-[var(--mist-border)] mt-8 grid grid-cols-2 gap-4">
+            <div>
+              <span class="text-xs text-slate-400 block uppercase font-inter font-medium mb-1">Estimated Annual Savings</span>
+              <span id="roi-pct" class="text-2xl md:text-3xl font-inter font-bold text-[var(--signal)]">+240% Speed</span>
+            </div>
+            <div>
+              <span class="text-xs text-slate-400 block uppercase font-inter font-medium mb-1">Infrastructure Waste Reduced</span>
+              <span id="co2-pct" class="text-2xl md:text-3xl font-inter font-bold text-emerald-400">-15% Waste</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lab 2: Live Interactive Cybersecurity Micro-Audit -->
+        <div class="glass-panel p-8 rounded-2xl border border-[var(--mist-border)] flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-[var(--mist-border)] pb-4 mb-6">
+              <h3 class="font-inter font-bold text-xl text-white">Free Security Health Check</h3>
+              <span class="tag">FREE CHECK</span>
+            </div>
+
+            <p class="text-xs text-slate-400 font-inter mb-6">Answer 5 quick questions to see how secure your business is right now. Takes less than a minute.</p>
+            
+            <div class="space-y-4">
+              <!-- Checklist item 1 -->
+              <label class="flex items-start gap-3 cursor-pointer group">
+                <input type="checkbox" class="audit-check w-4 h-4 rounded accent-[var(--signal)] bg-slate-950 border-[var(--mist-border)] mt-1" onchange="computeAuditScore()" />
+                <span class="text-sm text-slate-300 group-hover:text-white transition-colors leading-relaxed">Our developers enforce multi-factor authentication (MFA) across 100% of internal database clusters.</span>
+              </label>
+
+              <!-- Checklist item 2 -->
+              <label class="flex items-start gap-3 cursor-pointer group">
+                <input type="checkbox" class="audit-check w-4 h-4 rounded accent-[var(--signal)] bg-slate-950 border-[var(--mist-border)] mt-1" onchange="computeAuditScore()" />
+                <span class="text-sm text-slate-300 group-hover:text-white transition-colors leading-relaxed">We maintain zero-trust perimeter segmentation blocking external lateral network hops.</span>
+              </label>
+
+              <!-- Checklist item 3 -->
+              <label class="flex items-start gap-3 cursor-pointer group">
+                <input type="checkbox" class="audit-check w-4 h-4 rounded accent-[var(--signal)] bg-slate-950 border-[var(--mist-border)] mt-1" onchange="computeAuditScore()" />
+                <span class="text-sm text-slate-300 group-hover:text-white transition-colors leading-relaxed">System audits and SOC penetration tests are executed at least once every calendar quarter.</span>
+              </label>
+
+              <!-- Checklist item 4 -->
+              <label class="flex items-start gap-3 cursor-pointer group">
+                <input type="checkbox" class="audit-check w-4 h-4 rounded accent-[var(--signal)] bg-slate-950 border-[var(--mist-border)] mt-1" onchange="computeAuditScore()" />
+                <span class="text-sm text-slate-300 group-hover:text-white transition-colors leading-relaxed">Our core databases employ high-availability double-replication with continuous backups.</span>
+              </label>
+
+              <!-- Checklist item 5 -->
+              <label class="flex items-start gap-3 cursor-pointer group">
+                <input type="checkbox" class="audit-check w-4 h-4 rounded accent-[var(--signal)] bg-slate-950 border-[var(--mist-border)] mt-1" onchange="computeAuditScore()" />
+                <span class="text-sm text-slate-300 group-hover:text-white transition-colors leading-relaxed">All infrastructure pipelines utilize immutable Terraform Infrastructure as Code.</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Dynamic Scored Diagnostic Block -->
+          <div class="mt-8">
+            <div class="bg-slate-950/80 p-5 rounded-xl border border-[var(--mist-border)] mb-4 flex justify-between items-center">
+              <div>
+                <span class="text-xs text-slate-400 block uppercase font-inter font-medium mb-1">Your Security Score</span>
+                <span id="audit-tier" class="text-base font-inter font-bold text-red-400">Needs Attention</span>
+              </div>
+              <div class="text-right">
+                <span id="audit-score-bubble" class="text-2xl font-bold text-red-400">0% Secure</span>
+              </div>
+            </div>
+            <button onclick="navigateTo('#contact'); document.getElementById('message').value='System Micro-Audit Diagnostics Output: Required urgent remediation advice...';" class="btn-primary w-full">Get a Free Security Consultation
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── STREAMING_CHUNK: Classic Home Services Matrix Ticker ── -->
+    <section class="max-w-7xl mx-auto px-6 py-24">
+      <div class="text-center mb-16">
+        <span class="eyebrow">What We Do</span>
+        <h2 class="font-inter">Services Built for Your Business</h2>
+      </div>
+
+      <!-- Services 3x2 Matrix Grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Service 1 -->
+        <div class="glass-card p-8 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 bg-[var(--signal-dim)] text-[var(--signal)] border border-[var(--mist-border)] rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+            </div>
+            <h3 class="font-inter font-bold text-lg text-white mb-3">Cybersecurity & Compliance</h3>
+            <p class="text-slate-300 text-base leading-relaxed mb-6">We protect your systems from threats around the clock. From penetration testing to compliance, your security is always covered.</p>
+          </div>
+          <a onclick="navigateTo('#cybersecurity')" class="text-sm font-inter font-semibold text-[var(--signal)] inline-flex items-center gap-1.5 cursor-pointer hover:text-white transition-colors">Learn More <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></a>
+        </div>
+
+        <!-- Service 2 -->
+        <div class="glass-card p-8 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 bg-[var(--signal-dim)] text-[var(--signal)] border border-[var(--mist-border)] rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719"/></svg>
+            </div>
+            <h3 class="font-inter font-bold text-lg text-white mb-3">IT Consulting & Strategy</h3>
+            <p class="text-slate-300 text-base leading-relaxed mb-6">Get expert technology leadership without hiring a full-time CTO. We align your tech decisions with your business goals.</p>
+          </div>
+          <a onclick="navigateTo('#it-consulting')" class="text-sm font-inter font-semibold text-[var(--signal)] inline-flex items-center gap-1.5 cursor-pointer hover:text-white transition-colors">Learn More <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></a>
+        </div>
+
+        <!-- Service 3 -->
+        <div class="glass-card p-8 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 bg-[var(--signal-dim)] text-[var(--signal)] border border-[var(--mist-border)] rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.83-5.83m-4.32-1.34a6 6 0 11-3.6-3.6m3.6 3.6A2.25 2.25 0 019 11.25"/></svg>
+            </div>
+            <h3 class="font-inter font-bold text-lg text-white mb-3">Managed IT Support</h3>
+            <p class="text-slate-300 text-base leading-relaxed mb-6">We keep your team's devices secure, updated, and running smoothly — so downtime never costs you a deal.</p>
+          </div>
+          <a onclick="navigateTo('#managed-it')" class="text-sm font-inter font-semibold text-[var(--signal)] inline-flex items-center gap-1.5 cursor-pointer hover:text-white transition-colors">Learn More <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></a>
+        </div>
+
+        <!-- Service 4 -->
+        <div class="glass-card p-8 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 bg-[var(--signal-dim)] text-[var(--signal)] border border-[var(--mist-border)] rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"/></svg>
+            </div>
+            <h3 class="font-inter font-bold text-lg text-white mb-3">Custom Software Development</h3>
+            <p class="text-slate-300 text-base leading-relaxed mb-6">We build fast, reliable web applications and software tailored exactly to your business needs.</p>
+          </div>
+          <a onclick="navigateTo('#software-dev')" class="text-sm font-inter font-semibold text-[var(--signal)] inline-flex items-center gap-1.5 cursor-pointer hover:text-white transition-colors">Learn More <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></a>
+        </div>
+
+        <!-- Service 5 -->
+        <div class="glass-card p-8 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 bg-[var(--signal-dim)] text-[var(--signal)] border border-[var(--mist-border)] rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z"/></svg>
+            </div>
+            <h3 class="font-inter font-bold text-lg text-white mb-3">Cloud Systems</h3>
+            <p class="text-slate-300 text-base leading-relaxed mb-6">Move to the cloud confidently. We design, migrate, and manage your cloud infrastructure so it's secure and cost-effective.</p>
+          </div>
+          <a onclick="navigateTo('#cloud-services')" class="text-sm font-inter font-semibold text-[var(--signal)] inline-flex items-center gap-1.5 cursor-pointer hover:text-white transition-colors">Learn More <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></a>
+        </div>
+
+        <!-- Service 6 -->
+        <div class="glass-card p-8 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 bg-[var(--signal-dim)] text-[var(--signal)] border border-[var(--mist-border)] rounded-xl flex items-center justify-center mb-6">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5"/></svg>
+            </div>
+            <h3 class="font-inter font-bold text-lg text-white mb-3">Data Engineering</h3>
+            <p class="text-slate-300 text-base leading-relaxed mb-6">Turn your raw data into useful insights. We build pipelines that make your data work for you, in real time.</p>
+          </div>
+          <a onclick="navigateTo('#data-analytics')" class="text-sm font-inter font-semibold text-[var(--signal)] inline-flex items-center gap-1.5 cursor-pointer hover:text-white transition-colors">Learn More <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── STREAMING_CHUNK: Interactive Testimonial Slider ── -->
+    <section class="max-w-7xl mx-auto px-6 py-24 border-t border-[var(--mist-border)]">
+      <div class="text-center mb-16">
+        <span class="eyebrow">What Our Clients Say</span>
+        <h2 class="font-inter">Real Results, Real Clients</h2>
+      </div>
+
+      <!-- Testimonial Slider Deck -->
+      <div class="max-w-4xl mx-auto relative px-12">
+        <div id="test-slide-container" class="glass-panel p-8 md:p-12 rounded-3xl border border-[var(--mist-border)] relative overflow-hidden min-h-[280px] h-auto flex flex-col justify-between">
+          <div id="test-content-area" class="transition-all duration-300">
+            <!-- Dynamic Content Injected here -->
+          </div>
+          <div class="flex justify-between items-center border-t border-[var(--mist-border)] pt-4">
+            <span id="test-metrics" class="text-sm font-semibold text-[var(--signal-2)]">Metrics Injected</span>
+            <span id="test-author" class="text-sm text-slate-300">Author Injected</span>
+          </div>
+        </div>
+
+        <!-- Carousel navigation arrows -->
+        <button onclick="prevTestimonial()" class="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-slate-900 border border-[var(--mist-border)] text-white hover:border-[var(--signal)] flex items-center justify-center rounded-full transition-all">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15.75 19.5L8.25 12l7.5-7.5"/></svg>
+        </button>
+        <button onclick="nextTestimonial()" class="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 bg-slate-900 border border-[var(--mist-border)] text-white hover:border-[var(--signal)] flex items-center justify-center rounded-full transition-all">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M8.25 4.5l7.5 7.5-7.5 7.5"/></svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- ── STREAMING_CHUNK: Glassmorphic Interactive FAQ Accordion ── -->
+    <section class="max-w-7xl mx-auto px-6 py-24 border-t border-[var(--mist-border)]">
+      <div class="max-w-3xl mx-auto">
+        <div class="text-center mb-16">
+          <span class="eyebrow">Got Questions?</span>
+          <h2 class="font-inter">Frequently Asked Questions</h2>
+        </div>
+
+        <div class="space-y-4">
+          <!-- FAQ 1 -->
+          <div class="glass-panel rounded-xl border border-[var(--mist-border)] overflow-hidden">
+            <button onclick="toggleFAQ(this)" class="w-full text-left px-6 py-5 flex justify-between items-center gap-4 font-inter font-bold text-base text-slate-100 hover:text-white transition-colors text-left">
+              <span>Where is my data stored and is it safe?</span>
+              <svg class="w-5 h-5 text-[var(--signal)] transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+            </button>
+            <div class="faq-content max-h-0 opacity-0 overflow-hidden transition-all duration-300">
+              <p class="px-6 pb-5 text-sm text-slate-400 leading-relaxed font-inter">Your data is stored in private, isolated cloud environments encrypted with industry-standard AES-256 encryption. Only authorized personnel can access it, and it is never shared with third parties.</p>
+            </div>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div class="glass-panel rounded-xl border border-[var(--mist-border)] overflow-hidden">
+            <button onclick="toggleFAQ(this)" class="w-full text-left px-6 py-5 flex justify-between items-center gap-4 font-inter font-bold text-base text-slate-100 hover:text-white transition-colors text-left">
+              <span>How quickly do you respond if something goes wrong?</span>
+              <svg class="w-5 h-5 text-[var(--signal)] transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+            </button>
+            <div class="faq-content max-h-0 opacity-0 overflow-hidden transition-all duration-300">
+              <p class="px-6 pb-5 text-sm text-slate-400 leading-relaxed font-inter">Our security team responds within 15 minutes to any active threat. We immediately isolate the affected systems to contain the damage and begin remediation right away.</p>
+            </div>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div class="glass-panel rounded-xl border border-[var(--mist-border)] overflow-hidden">
+            <button onclick="toggleFAQ(this)" class="w-full text-left px-6 py-5 flex justify-between items-center gap-4 font-inter font-bold text-base text-slate-100 hover:text-white transition-colors text-left">
+              <span>Are your engineers properly certified?</span>
+              <svg class="w-5 h-5 text-[var(--signal)] transition-transform duration-200" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M19.5 8.25l-7.5 7.5-7.5-7.5"/></svg>
+            </button>
+            <div class="faq-content max-h-0 opacity-0 overflow-hidden transition-all duration-300">
+              <p class="px-6 pb-5 text-sm text-slate-400 leading-relaxed font-inter">Yes. Every engineer is certified in their specific area — AWS Solutions Architects handle cloud, OSCP-certified professionals handle security assessments, and senior developers handle software projects. You always get the right expert for the job.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- ==================== VIEW: ABOUT US ==================== -->
+  <div id="about-us" class="view-container">
+    <section class="max-w-7xl mx-auto px-6 py-16">
+      <div class="text-center mb-16">
+        <span class="eyebrow">Who We Are</span>
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-inter font-bold text-white mt-3">Built by Experts, Focused on You</h1>
+        <p class="text-slate-300 max-w-xl mx-auto mt-4 text-base font-inter">We don't guess—we systematically compile. Our company is divided strictly into highly specialized engineering clusters working under peerless, certified oversight.</p>
+      </div>
+
+      <!-- Domain Squad Cards -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+        <!-- Squad 1 -->
+        <div class="glass-panel p-8 rounded-xl border border-[var(--mist-border)]">
+          <h3 class="font-inter font-bold text-lg text-white mb-3">SecOps Squad</h3>
+          <p class="text-slate-300 text-sm leading-relaxed">Composed strictly of OSCP-certified security professionals with a focus on database audits and threat containment networks.</p>
+        </div>
+        <!-- Squad 2 -->
+        <div class="glass-panel p-8 rounded-xl border border-[var(--mist-border)]">
+          <h3 class="font-inter font-bold text-lg text-white mb-3">Cloud Architects</h3>
+          <p class="text-slate-300 text-sm leading-relaxed">Certified AWS and Azure professionals deploying infrastructure via immutable Terraform modules with zero downtime.</p>
+        </div>
+        <!-- Squad 3 -->
+        <div class="glass-panel p-8 rounded-xl border border-[var(--mist-border)]">
+          <h3 class="font-inter font-bold text-lg text-white mb-3">Systems Software Dev</h3>
+          <p class="text-slate-300 text-sm leading-relaxed">Full-stack developers assembling performance-tuned SaaS backend endpoints with comprehensive static security checks.</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+    <div id="cybersecurity" class="view-container">
+    <section class="max-w-7xl mx-auto px-6 py-16">
+
+      <div class="max-w-2xl mx-auto text-center mb-16">
+        <span class="eyebrow">Cybersecurity</span>
+        <h1 class="font-inter mt-3">Keep Your Business Safe — Before & After an Attack</h1>
+        <p style="margin-top:1rem;font-size:1rem;color:var(--text-muted);line-height:1.8;">
+          We protect your systems, data, and reputation with round-the-clock monitoring, penetration testing, and compliance — so threats never become disasters.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-20">
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:var(--signal-dim);border:1px solid var(--mist-border);"><svg class="w-5 h-5" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg></div>
+          <h3 class="font-inter mb-2">Penetration Testing</h3>
+          <p>We simulate real attacks on your systems before criminals do. Our OSCP-certified testers find weaknesses and give you a clear fix-it plan.</p>
+        </div>
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:var(--signal-dim);border:1px solid var(--mist-border);"><svg class="w-5 h-5" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 9v3.75m0-10.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.75c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-3.072-1.31-5.845-3.398-7.785"/></svg></div>
+          <h3 class="font-inter mb-2">24/7 Threat Monitoring</h3>
+          <p>Our security operations center watches your network around the clock. When something suspicious happens, we act within minutes — not hours.</p>
+        </div>
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:var(--signal-dim);border:1px solid var(--mist-border);"><svg class="w-5 h-5" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg></div>
+          <h3 class="font-inter mb-2">Compliance & Auditing</h3>
+          <p>We help you meet SOC 2, ISO 27001, and HIPAA requirements — handling the documentation, controls, and evidence collection so audits don't slow your team down.</p>
+        </div>
+      </div>
+
+      <div class="max-w-6xl mx-auto mb-20">
+        <div class="text-center mb-12">
+          <h2 class="font-inter">How We Handle a Threat</h2>
+          <p style="color:var(--text-muted);margin-top:0.5rem;">From detection to resolution — a clear, fast process.</p>
+        </div>
+        <div class="grid md:grid-cols-4 gap-6">
+          <div class="text-center p-6">
+            <div class="step-num mb-3">01</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Detect</h4>
+            <p style="font-size:0.9rem;">We continuously scan your systems for vulnerabilities, misconfigurations, and suspicious activity.</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="step-num mb-3">02</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Alert</h4>
+            <p style="font-size:0.9rem;">Our team is notified instantly. You get a clear update — what happened, how serious it is, and what we're doing.</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="step-num mb-3">03</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Contain</h4>
+            <p style="font-size:0.9rem;">Affected systems are isolated immediately to stop the threat from spreading to the rest of your network.</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="step-num mb-3">04</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Resolve & Report</h4>
+            <p style="font-size:0.9rem;">We fix the issue, restore normal operations, and send you a full incident report with steps to prevent recurrence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-10 max-w-6xl mx-auto mb-20">
+        <div class="glass-panel p-8 rounded-2xl space-y-5">
+          <h3 class="font-inter">Why Zero-Trust Security Matters</h3>
+          <p style="color:var(--text-muted);">Traditional security assumes everyone inside your network is safe. Zero-trust assumes nothing — every user, device, and connection must prove itself every time.</p>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">No automatic trust</h4><p style="font-size:0.9rem;">Even internal users and devices are verified before accessing sensitive systems.</p></div>
+            </div>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">Minimal blast radius</h4><p style="font-size:0.9rem;">If one account is compromised, attackers can't move freely across your systems.</p></div>
+            </div>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">Continuous verification</h4><p style="font-size:0.9rem;">Access is checked constantly — not just at login.</p></div>
+            </div>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">Faster breach detection</h4><p style="font-size:0.9rem;">Unusual behaviour is caught sooner because normal behaviour is clearly defined.</p></div>
+            </div>
+        </div>
+        <div class="glass-panel p-8 rounded-2xl">
+          <h3 class="font-inter mb-6">Compliance We Cover</h3>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between py-3 border-b border-[var(--mist-border)]">
+              <span class="text-white font-semibold">SOC 2 Type II</span>
+              <span class="tag">Security & Availability</span>
+            </div>
+            <div class="flex items-center justify-between py-3 border-b border-[var(--mist-border)]">
+              <span class="text-white font-semibold">ISO 27001</span>
+              <span class="tag">Information Security</span>
+            </div>
+            <div class="flex items-center justify-between py-3 border-b border-[var(--mist-border)]">
+              <span class="text-white font-semibold">HIPAA</span>
+              <span class="tag">Healthcare Data</span>
+            </div>
+            <div class="flex items-center justify-between py-3">
+              <span class="text-white font-semibold">GDPR</span>
+              <span class="tag">Data Privacy</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-2xl mx-auto text-center glass-panel p-10 rounded-2xl">
+        <h2 class="font-inter mb-3">Not sure how secure you are?</h2>
+        <p style="color:var(--text-muted);margin-bottom:2rem;">We offer a free security health check — no commitment, no pressure. Just a clear picture of where you stand.</p>
+        <a onclick="navigateTo('#contact')" class="btn-primary" style="font-size:1rem;padding:0.9rem 2.25rem;">Get a Free Security Check <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></a>
+      </div>
+
+    </section>
+  </div>
+
+    <div id="it-consulting" class="view-container">
+    <section class="max-w-7xl mx-auto px-6 py-16">
+
+      <div class="max-w-2xl mx-auto text-center mb-16">
+        <span class="eyebrow">IT Strategy & Consulting</span>
+        <h1 class="font-inter mt-3">Senior Tech Leadership, Without the Full-Time Cost</h1>
+        <p style="margin-top:1rem;font-size:1rem;color:var(--text-muted);line-height:1.8;">
+          We act as your fractional CTO — helping you make the right technology decisions, reduce costs, and build a roadmap that actually matches your business goals.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-20">
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:var(--signal-dim);border:1px solid var(--mist-border);"><svg class="w-5 h-5" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0H21m-1.5 0v11.25A2.25 2.25 0 0117.25 16.5H15"/></svg></div>
+          <h3 class="font-inter mb-2">Technology Roadmap</h3>
+          <p>We map out a clear 12–24 month plan for your technology — what to build, what to fix, what to stop spending money on, and when to do each.</p>
+        </div>
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:var(--signal-dim);border:1px solid var(--mist-border);"><svg class="w-5 h-5" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941"/></svg></div>
+          <h3 class="font-inter mb-2">Cost Reduction</h3>
+          <p>Most companies overspend on technology by 20–40%. We audit your spending, eliminate waste, and right-size your infrastructure — usually saving money within 90 days.</p>
+        </div>
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:var(--signal-dim);border:1px solid var(--mist-border);"><svg class="w-5 h-5" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584"/></svg></div>
+          <h3 class="font-inter mb-2">Vendor & Team Management</h3>
+          <p>We help you choose the right tools, negotiate with vendors, and build a hiring plan — so you get the best people and software for your budget.</p>
+        </div>
+      </div>
+
+      <div class="max-w-6xl mx-auto mb-20">
+        <div class="text-center mb-12">
+          <h2 class="font-inter">How It Works</h2>
+          <p style="color:var(--text-muted);margin-top:0.5rem;">We embed with your team and start delivering value quickly.</p>
+        </div>
+        <div class="grid md:grid-cols-4 gap-6">
+          <div class="text-center p-6">
+            <div class="step-num mb-3">01</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Technology Audit</h4>
+            <p style="font-size:0.9rem;">We review everything — your stack, your team, your tools, and your spending. No assumptions, just facts.</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="step-num mb-3">02</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Identify Priorities</h4>
+            <p style="font-size:0.9rem;">We highlight the 3–5 changes that will make the biggest difference and explain why in plain language.</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="step-num mb-3">03</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Build the Roadmap</h4>
+            <p style="font-size:0.9rem;">You get a written, prioritised plan with timelines, costs, and the business case for each decision.</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="step-num mb-3">04</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Ongoing Advisory</h4>
+            <p style="font-size:0.9rem;">We stay involved as you execute — attending meetings, reviewing proposals, and keeping things on track.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-10 max-w-6xl mx-auto mb-20">
+        <div class="glass-panel p-8 rounded-2xl space-y-5">
+          <h3 class="font-inter">Who This Is For</h3>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">Growing startups</h4><p style="font-size:0.9rem;">You're scaling fast and need a senior tech voice without the cost of a full-time CTO.</p></div>
+            </div>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">Established businesses</h4><p style="font-size:0.9rem;">Your technology feels out of date, expensive, or holding your team back.</p></div>
+            </div>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">Fundraising companies</h4><p style="font-size:0.9rem;">You need your tech stack and processes investor-ready before due diligence.</p></div>
+            </div>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">Teams without a tech lead</h4><p style="font-size:0.9rem;">Your business and product teams need a technical partner to make confident decisions.</p></div>
+            </div>
+        </div>
+        <div class="glass-panel p-8 rounded-2xl space-y-4">
+          <h3 class="font-inter mb-2">Typical Results</h3>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-slate-900/60 rounded-xl p-5 text-center">
+              <div style="font-size:2rem;font-weight:700;color:var(--signal);line-height:1;">35%</div>
+              <p style="font-size:0.8rem;color:var(--text-muted);margin-top:6px;">Average tech cost reduction within 90 days</p>
+            </div>
+            <div class="bg-slate-900/60 rounded-xl p-5 text-center">
+              <div style="font-size:2rem;font-weight:700;color:var(--signal);line-height:1;">2×</div>
+              <p style="font-size:0.8rem;color:var(--text-muted);margin-top:6px;">Faster product delivery after roadmap clarity</p>
+            </div>
+            <div class="bg-slate-900/60 rounded-xl p-5 text-center">
+              <div style="font-size:2rem;font-weight:700;color:var(--signal);line-height:1;">100%</div>
+              <p style="font-size:0.8rem;color:var(--text-muted);margin-top:6px;">Clients passed due diligence on first attempt</p>
+            </div>
+            <div class="bg-slate-900/60 rounded-xl p-5 text-center">
+              <div style="font-size:2rem;font-weight:700;color:var(--signal);line-height:1;">30 days</div>
+              <p style="font-size:0.8rem;color:var(--text-muted);margin-top:6px;">From first call to delivered roadmap</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-2xl mx-auto text-center glass-panel p-10 rounded-2xl">
+        <h2 class="font-inter mb-3">Ready to get your technology working for you?</h2>
+        <p style="color:var(--text-muted);margin-bottom:2rem;">Let's start with a free 30-minute call. We'll listen to your challenges and tell you honestly if and how we can help.</p>
+        <a onclick="navigateTo('#contact')" class="btn-primary" style="font-size:1rem;padding:0.9rem 2.25rem;">Book a Free Consultation <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></a>
+      </div>
+
+    </section>
+  </div>
+
+    <div id="managed-it" class="view-container">
+    <section class="max-w-7xl mx-auto px-6 py-16">
+
+      <div class="max-w-2xl mx-auto text-center mb-16">
+        <span class="eyebrow">Managed IT Support</span>
+        <h1 class="font-inter mt-3">Your IT, Handled. So Your Team Can Focus on Real Work.</h1>
+        <p style="margin-top:1rem;font-size:1rem;color:var(--text-muted);line-height:1.8;">
+          We manage your devices, systems, and infrastructure so you don't have to. Fewer outages, faster support, and no more IT firefighting.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-20">
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:var(--signal-dim);border:1px solid var(--mist-border);"><svg class="w-5 h-5" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.83-5.83m-4.32-1.34a6 6 0 11-3.6-3.6"/></svg></div>
+          <h3 class="font-inter mb-2">Helpdesk Support</h3>
+          <p>Your team gets fast, friendly IT help when they need it — by phone, chat, or email. We resolve most issues remotely within the hour.</p>
+        </div>
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:var(--signal-dim);border:1px solid var(--mist-border);"><svg class="w-5 h-5" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg></div>
+          <h3 class="font-inter mb-2">Patch & Update Management</h3>
+          <p>We keep every device up to date automatically — operating systems, software, and security patches — with zero disruption to your working day.</p>
+        </div>
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:var(--signal-dim);border:1px solid var(--mist-border);"><svg class="w-5 h-5" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5.25 14.25h13.5m-13.5 0a3 3 0 01-3-3m3 3a3 3 0 100 6h13.5a3 3 0 100-6m-16.5-3a3 3 0 013-3h13.5a3 3 0 013 3m-19.5 0a4.5 4.5 0 01.9-2.7L5.737 5.1a3.375 3.375 0 012.7-1.35h7.126c1.062 0 2.062.5 2.7 1.35l2.587 3.45a4.5 4.5 0 01.9 2.7m0 0a3 3 0 01-3 3m0 3h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008zm-3 6h.008v.008h-.008v-.008zm0-6h.008v.008h-.008v-.008z"/></svg></div>
+          <h3 class="font-inter mb-2">Device Management (MDM)</h3>
+          <p>We configure and secure every laptop, phone, and tablet in your business — enforcing encryption, controlling access, and wiping devices if they're lost or stolen.</p>
+        </div>
+      </div>
+
+      <div class="max-w-6xl mx-auto mb-20">
+        <div class="text-center mb-12">
+          <h2 class="font-inter">What's Included</h2>
+          <p style="color:var(--text-muted);margin-top:0.5rem;">Everything you need — nothing you don't.</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="glass-card p-6 rounded-2xl">
+            <div class="step-num mb-3">📞</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Fast Helpdesk</h4>
+            <p style="font-size:0.9rem;">Average response under 30 minutes. Your team never waits long for IT help.</p>
+          </div>
+          <div class="glass-card p-6 rounded-2xl">
+            <div class="step-num mb-3">🔒</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Security Monitoring</h4>
+            <p style="font-size:0.9rem;">24/7 monitoring for threats, unusual logins, and suspicious activity across all your devices.</p>
+          </div>
+          <div class="glass-card p-6 rounded-2xl">
+            <div class="step-num mb-3">💾</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Backup & Recovery</h4>
+            <p style="font-size:0.9rem;">Your data is backed up daily. If something goes wrong, we restore it fast — usually within the hour.</p>
+          </div>
+          <div class="glass-card p-6 rounded-2xl">
+            <div class="step-num mb-3">📊</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Monthly Reports</h4>
+            <p style="font-size:0.9rem;">Plain-English monthly reports showing what we fixed, what we prevented, and where things stand.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-10 max-w-6xl mx-auto mb-20">
+        <div class="glass-panel p-8 rounded-2xl space-y-5">
+          <h3 class="font-inter">Why Outsource IT?</h3>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">Lower cost than an in-house team</h4><p style="font-size:0.9rem;">A dedicated IT person costs ₹8–15L/year. Our managed service covers more ground for a fraction of that.</p></div>
+            </div>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">No single point of failure</h4><p style="font-size:0.9rem;">With us, you have a whole team — not one person who can go on leave or quit.</p></div>
+            </div>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">Proactive, not reactive</h4><p style="font-size:0.9rem;">We fix problems before they happen — not after your team is already stuck.</p></div>
+            </div>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">Scales with you</h4><p style="font-size:0.9rem;">As you hire more people and add more devices, we scale with you — no rehiring needed.</p></div>
+            </div>
+        </div>
+        <div class="glass-panel p-8 rounded-2xl">
+          <h3 class="font-inter mb-6">Our Response Standards</h3>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between py-3 border-b border-[var(--mist-border)]">
+              <div><p class="text-white font-semibold">Critical Issue</p><p style="font-size:0.82rem;color:var(--text-muted);">System down, security breach</p></div>
+              <span class="tag" style="color:#f87171;border-color:#f8717140;background:#f871711a;">&lt; 15 min</span>
+            </div>
+            <div class="flex items-center justify-between py-3 border-b border-[var(--mist-border)]">
+              <div><p class="text-white font-semibold">High Priority</p><p style="font-size:0.82rem;color:var(--text-muted);">User completely blocked</p></div>
+              <span class="tag" style="color:#fb923c;border-color:#fb923c40;background:#fb923c1a;">&lt; 30 min</span>
+            </div>
+            <div class="flex items-center justify-between py-3 border-b border-[var(--mist-border)]">
+              <div><p class="text-white font-semibold">Medium Priority</p><p style="font-size:0.82rem;color:var(--text-muted);">Partial disruption</p></div>
+              <span class="tag">&lt; 2 hours</span>
+            </div>
+            <div class="flex items-center justify-between py-3">
+              <div><p class="text-white font-semibold">Low Priority</p><p style="font-size:0.82rem;color:var(--text-muted);">General questions, requests</p></div>
+              <span class="tag">&lt; 4 hours</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-2xl mx-auto text-center glass-panel p-10 rounded-2xl">
+        <h2 class="font-inter mb-3">Let us take IT off your plate.</h2>
+        <p style="color:var(--text-muted);margin-bottom:2rem;">Tell us about your team size and setup. We'll put together a simple, transparent plan with no hidden fees.</p>
+        <a onclick="navigateTo('#contact')" class="btn-primary" style="font-size:1rem;padding:0.9rem 2.25rem;">Get a Free IT Assessment <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></a>
+      </div>
+
+    </section>
+  </div>
+
+  <!-- ==================== VIEW: SOFTWARE DEVELOPMENT ==================== -->
+  <div id="software-dev" class="view-container">
+    <section class="max-w-7xl mx-auto px-6 py-16">
+
+      <!-- Header -->
+      <div class="max-w-2xl mx-auto text-center mb-16">
+        <span class="eyebrow">Custom Software Development</span>
+        <h1 class="font-inter mt-3">We Build Software Your Business Actually Needs</h1>
+        <p style="margin-top:1rem;font-size:1rem;color:var(--text-muted);line-height:1.8;">
+          From a simple web app to a full SaaS platform — we design, build, and ship software that is fast, secure, and built to grow with you.
+        </p>
+      </div>
+
+      <!-- What we build — 3 col -->
+      <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-20">
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+            <svg class="w-5 h-5" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25"/></svg>
+          </div>
+          <h3 class="font-inter mb-2">Web Applications</h3>
+          <p>Responsive, fast-loading web apps built with modern frameworks. Whether it's a customer portal, internal dashboard, or a public-facing product — we build it right.</p>
+        </div>
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+            <svg class="w-5 h-5" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3"/></svg>
+          </div>
+          <h3 class="font-inter mb-2">SaaS Products</h3>
+          <p>We help you launch and scale Software-as-a-Service products — from multi-tenant architecture and subscription billing to user management and analytics dashboards.</p>
+        </div>
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+            <svg class="w-5 h-5" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"/></svg>
+          </div>
+          <h3 class="font-inter mb-2">APIs & Integrations</h3>
+          <p>Connect your tools, automate workflows, and expose your data through clean, well-documented APIs. We build the backend layer that makes everything talk to each other.</p>
+        </div>
+      </div>
+
+      <!-- How we work — process steps -->
+      <div class="max-w-6xl mx-auto mb-20">
+        <div class="text-center mb-12">
+          <h2 class="font-inter">How We Work</h2>
+          <p style="color:var(--text-muted);margin-top:0.5rem;">A simple, transparent process from idea to launch.</p>
+        </div>
+        <div class="grid md:grid-cols-4 gap-6">
+          <div class="text-center p-6">
+            <div class="step-num mb-3">01</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Discovery</h4>
+            <p style="font-size:0.9rem;">We learn your business goals, your users, and what problem the software needs to solve.</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="step-num mb-3">02</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Design & Plan</h4>
+            <p style="font-size:0.9rem;">We map out the architecture, pick the right tech stack, and share wireframes before writing a single line of code.</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="step-num mb-3">03</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Build & Test</h4>
+            <p style="font-size:0.9rem;">We develop in short sprints with weekly updates. Every feature is tested before it ships.</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="step-num mb-3">04</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Launch & Support</h4>
+            <p style="font-size:0.9rem;">We deploy, monitor, and support your software after go-live. We don't disappear after delivery.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Split: what makes us different + tech stack -->
+      <div class="grid lg:grid-cols-2 gap-10 max-w-6xl mx-auto mb-20">
+
+        <!-- Left: differentiators -->
+        <div class="glass-panel p-8 rounded-2xl space-y-6">
+          <h3 class="font-inter">What Makes Us Different</h3>
+          <div class="space-y-5">
+            <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div>
+                <h4 class="font-inter font-semibold text-white mb-1">No outsourcing</h4>
+                <p style="font-size:0.9rem;">Your project is built entirely in-house by our senior engineers. No handoffs to unknown subcontractors.</p>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div>
+                <h4 class="font-inter font-semibold text-white mb-1">Security built in from day one</h4>
+                <p style="font-size:0.9rem;">Every app we build goes through security review at every stage — not just at the end as an afterthought.</p>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div>
+                <h4 class="font-inter font-semibold text-white mb-1">You own everything</h4>
+                <p style="font-size:0.9rem;">Full source code, documentation, and IP ownership transferred to you at delivery. No lock-in, ever.</p>
+              </div>
+            </div>
+            <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div>
+                <h4 class="font-inter font-semibold text-white mb-1">Plain communication</h4>
+                <p style="font-size:0.9rem;">Weekly progress updates in plain English. No jargon, no surprises. You always know where things stand.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: tech stack -->
+        <div class="space-y-6">
+          <div class="glass-panel p-8 rounded-2xl">
+            <h3 class="font-inter mb-5">Our Technology Stack</h3>
+            <div class="space-y-4">
+              <div>
+                <p class="eyebrow mb-2">Frontend</p>
+                <div class="flex flex-wrap gap-2">
+                  <span class="tag">React</span>
+                  <span class="tag">Next.js</span>
+                  <span class="tag">TypeScript</span>
+                  <span class="tag">Tailwind CSS</span>
+                </div>
+              </div>
+              <div>
+                <p class="eyebrow mb-2">Backend</p>
+                <div class="flex flex-wrap gap-2">
+                  <span class="tag">Node.js</span>
+                  <span class="tag">Go</span>
+                  <span class="tag">Python</span>
+                  <span class="tag">REST & GraphQL</span>
+                </div>
+              </div>
+              <div>
+                <p class="eyebrow mb-2">Database & Storage</p>
+                <div class="flex flex-wrap gap-2">
+                  <span class="tag">PostgreSQL</span>
+                  <span class="tag">MongoDB</span>
+                  <span class="tag">Redis</span>
+                  <span class="tag">S3</span>
+                </div>
+              </div>
+              <div>
+                <p class="eyebrow mb-2">Infrastructure</p>
+                <div class="flex flex-wrap gap-2">
+                  <span class="tag">AWS</span>
+                  <span class="tag">Docker</span>
+                  <span class="tag">Kubernetes</span>
+                  <span class="tag">CI/CD</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom CTA -->
+      <div class="max-w-2xl mx-auto text-center glass-panel p-10 rounded-2xl">
+        <h2 class="font-inter mb-3">Have an idea? Let's build it.</h2>
+        <p style="color:var(--text-muted);margin-bottom:2rem;">Tell us what you need and we'll come back with a clear plan, timeline, and cost — no obligation.</p>
+        <a onclick="navigateTo('#contact')" class="btn-primary" style="font-size:1rem;padding:0.9rem 2.25rem;">
+          Start a Conversation
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg>
+        </a>
+      </div>
+
+    </section>
+  </div>
+
+    <div id="cloud-services" class="view-container">
+    <section class="max-w-7xl mx-auto px-6 py-16">
+
+      <div class="max-w-2xl mx-auto text-center mb-16">
+        <span class="eyebrow">Cloud Infrastructure</span>
+        <h1 class="font-inter mt-3">Move to the Cloud Confidently — and Save Money Doing It</h1>
+        <p style="margin-top:1rem;font-size:1rem;color:var(--text-muted);line-height:1.8;">
+          Whether you're migrating from on-premise, optimising an existing cloud setup, or building something new — we design infrastructure that is reliable, secure, and costs exactly what it should.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-20">
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:var(--signal-dim);border:1px solid var(--mist-border);"><svg class="w-5 h-5" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 5.25 5.25 0 00-10.338-2.32 3.75 3.75 0 00-4.994 3.577z"/></svg></div>
+          <h3 class="font-inter mb-2">Cloud Migration</h3>
+          <p>We move your servers, data, and applications to AWS or Azure with minimal downtime. Every migration is planned, tested, and rolled out in stages — no nasty surprises.</p>
+        </div>
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:var(--signal-dim);border:1px solid var(--mist-border);"><svg class="w-5 h-5" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0H21m-1.5 0v11.25A2.25 2.25 0 0117.25 16.5H15m-6 0v4.5m0 0H7.5m1.5 0h3M12 12.75h.008v.008H12v-.008z"/></svg></div>
+          <h3 class="font-inter mb-2">Infrastructure as Code</h3>
+          <p>We build your entire cloud environment in code using Terraform — so it can be version-controlled, reproduced, and rebuilt in minutes if anything goes wrong.</p>
+        </div>
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:var(--signal-dim);border:1px solid var(--mist-border);"><svg class="w-5 h-5" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.57-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg></div>
+          <h3 class="font-inter mb-2">Cost Optimisation</h3>
+          <p>Most cloud bills are 30–50% higher than they need to be. We audit your usage, eliminate waste, and right-size your resources — often saving thousands per month.</p>
+        </div>
+      </div>
+
+      <div class="max-w-6xl mx-auto mb-20">
+        <div class="text-center mb-12">
+          <h2 class="font-inter">Our Migration Process</h2>
+          <p style="color:var(--text-muted);margin-top:0.5rem;">A safe, structured approach to moving to the cloud.</p>
+        </div>
+        <div class="grid md:grid-cols-4 gap-6">
+          <div class="text-center p-6">
+            <div class="step-num mb-3">01</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Assess</h4>
+            <p style="font-size:0.9rem;">We audit your current setup — what you have, what it costs, and how it performs.</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="step-num mb-3">02</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Plan</h4>
+            <p style="font-size:0.9rem;">We design the target cloud architecture, choose the right services, and plan the migration in safe stages.</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="step-num mb-3">03</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Migrate</h4>
+            <p style="font-size:0.9rem;">We move workloads one by one — testing each step before cutting over, so your business stays running.</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="step-num mb-3">04</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Optimise</h4>
+            <p style="font-size:0.9rem;">After migration we tune performance, set up monitoring, and identify further cost savings.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-10 max-w-6xl mx-auto mb-20">
+        <div class="glass-panel p-8 rounded-2xl space-y-5">
+          <h3 class="font-inter">What You Get</h3>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">High availability</h4><p style="font-size:0.9rem;">Your systems stay online even when hardware fails. We design for redundancy from the start.</p></div>
+            </div>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">Auto-scaling</h4><p style="font-size:0.9rem;">Traffic spike? Your infrastructure grows automatically and shrinks when it's quiet — you only pay for what you use.</p></div>
+            </div>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">Automated backups</h4><p style="font-size:0.9rem;">Daily encrypted backups with tested restore procedures. We verify them regularly — not just assume they work.</p></div>
+            </div>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">Full visibility</h4><p style="font-size:0.9rem;">Dashboards showing uptime, costs, performance, and alerts — all in one place, easy to read.</p></div>
+            </div>
+        </div>
+        <div class="glass-panel p-8 rounded-2xl">
+          <h3 class="font-inter mb-6">Technology We Work With</h3>
+          <div class="space-y-4">
+            <div><p class="eyebrow mb-2">Cloud Platforms</p><div class="flex flex-wrap gap-2"><span class="tag">AWS</span><span class="tag">Microsoft Azure</span><span class="tag">Google Cloud</span></div></div>
+            <div><p class="eyebrow mb-2">Infrastructure as Code</p><div class="flex flex-wrap gap-2"><span class="tag">Terraform</span><span class="tag">Ansible</span><span class="tag">Pulumi</span></div></div>
+            <div><p class="eyebrow mb-2">Containers & Orchestration</p><div class="flex flex-wrap gap-2"><span class="tag">Docker</span><span class="tag">Kubernetes</span><span class="tag">AWS EKS</span></div></div>
+            <div><p class="eyebrow mb-2">CI/CD & Monitoring</p><div class="flex flex-wrap gap-2"><span class="tag">GitHub Actions</span><span class="tag">Datadog</span><span class="tag">Grafana</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-2xl mx-auto text-center glass-panel p-10 rounded-2xl">
+        <h2 class="font-inter mb-3">Ready to move to the cloud — or optimise what you have?</h2>
+        <p style="color:var(--text-muted);margin-bottom:2rem;">We start with a free cloud assessment. You'll get a clear picture of your options and what it would cost.</p>
+        <a onclick="navigateTo('#contact')" class="btn-primary" style="font-size:1rem;padding:0.9rem 2.25rem;">Get a Free Cloud Assessment <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></a>
+      </div>
+
+    </section>
+  </div>
+
+    <div id="data-analytics" class="view-container">
+    <section class="max-w-7xl mx-auto px-6 py-16">
+
+      <div class="max-w-2xl mx-auto text-center mb-16">
+        <span class="eyebrow">Data Engineering</span>
+        <h1 class="font-inter mt-3">Turn Your Data Into Decisions — Not Just Reports</h1>
+        <p style="margin-top:1rem;font-size:1rem;color:var(--text-muted);line-height:1.8;">
+          We build the data infrastructure that gives your team reliable, real-time answers — so decisions are based on facts, not spreadsheets and guesswork.
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-20">
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:var(--signal-dim);border:1px solid var(--mist-border);"><svg class="w-5 h-5" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z"/></svg></div>
+          <h3 class="font-inter mb-2">Data Pipelines</h3>
+          <p>We connect your databases, apps, and third-party tools into a single, clean data flow — so your team always works from one source of truth.</p>
+        </div>
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:var(--signal-dim);border:1px solid var(--mist-border);"><svg class="w-5 h-5" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0H21m-1.5 0v11.25A2.25 2.25 0 0117.25 16.5H15m-6 0v4.5m0 0H7.5m1.5 0h3M12 12.75h.008v.008H12v-.008z"/></svg></div>
+          <h3 class="font-inter mb-2">Business Intelligence</h3>
+          <p>We build dashboards and reports that your whole team can actually use — showing sales trends, customer behaviour, and operational metrics in real time.</p>
+        </div>
+        <div class="glass-card p-8 rounded-2xl">
+          <div class="w-10 h-10 rounded-xl flex items-center justify-center mb-5" style="background:var(--signal-dim);border:1px solid var(--mist-border);"><svg class="w-5 h-5" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09z"/></svg></div>
+          <h3 class="font-inter mb-2">Data Quality & Governance</h3>
+          <p>Bad data leads to bad decisions. We audit your data quality, set up validation rules, and make sure what reaches your dashboards is accurate and trustworthy.</p>
+        </div>
+      </div>
+
+      <div class="max-w-6xl mx-auto mb-20">
+        <div class="text-center mb-12">
+          <h2 class="font-inter">How We Build Your Data Stack</h2>
+          <p style="color:var(--text-muted);margin-top:0.5rem;">From scattered data to a reliable, centralised system.</p>
+        </div>
+        <div class="grid md:grid-cols-4 gap-6">
+          <div class="text-center p-6">
+            <div class="step-num mb-3">01</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Audit</h4>
+            <p style="font-size:0.9rem;">We map all your data sources — what you collect, where it lives, and what's missing or unreliable.</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="step-num mb-3">02</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Design</h4>
+            <p style="font-size:0.9rem;">We design the right data architecture for your business size and goals — simple or advanced, based on what you actually need.</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="step-num mb-3">03</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Build</h4>
+            <p style="font-size:0.9rem;">We build the pipelines, transformations, and dashboards — and test everything thoroughly before going live.</p>
+          </div>
+          <div class="text-center p-6">
+            <div class="step-num mb-3">04</div>
+            <h4 class="font-inter font-semibold text-white mb-2">Hand Over</h4>
+            <p style="font-size:0.9rem;">We document everything and train your team so you're not dependent on us to get answers from your own data.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-10 max-w-6xl mx-auto mb-20">
+        <div class="glass-panel p-8 rounded-2xl space-y-5">
+          <h3 class="font-inter">Signs You Need This</h3>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">Your team argues about numbers</h4><p style="font-size:0.9rem;">Different departments have different figures for the same metric — because each pulls from a different source.</p></div>
+            </div>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">Reports take days to produce</h4><p style="font-size:0.9rem;">Your analyst spends most of the week manually pulling and cleaning data instead of analysing it.</p></div>
+            </div>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">You can't answer basic questions</h4><p style="font-size:0.9rem;">Simple questions like 'which customers churned last month?' require hours of SQL queries or spreadsheet work.</p></div>
+            </div>
+          <div class="flex gap-4">
+              <div class="w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5" style="background:var(--signal-dim);border:1px solid var(--mist-border);">
+                <svg class="w-4 h-4" style="color:var(--signal);" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4.5 12.75l6 6 9-13.5"/></svg>
+              </div>
+              <div><h4 class="font-inter font-semibold text-white mb-1">You're making gut decisions</h4><p style="font-size:0.9rem;">You have data but it's not organised or accessible enough to actually influence your daily decisions.</p></div>
+            </div>
+        </div>
+        <div class="glass-panel p-8 rounded-2xl">
+          <h3 class="font-inter mb-6">Tools We Use</h3>
+          <div class="space-y-4">
+            <div><p class="eyebrow mb-2">Data Warehouses</p><div class="flex flex-wrap gap-2"><span class="tag">Snowflake</span><span class="tag">BigQuery</span><span class="tag">Redshift</span></div></div>
+            <div><p class="eyebrow mb-2">Pipelines & Transformation</p><div class="flex flex-wrap gap-2"><span class="tag">Apache Kafka</span><span class="tag">dbt</span><span class="tag">Airflow</span></div></div>
+            <div><p class="eyebrow mb-2">Business Intelligence</p><div class="flex flex-wrap gap-2"><span class="tag">Power BI</span><span class="tag">Looker</span><span class="tag">Metabase</span></div></div>
+            <div><p class="eyebrow mb-2">Storage & Processing</p><div class="flex flex-wrap gap-2"><span class="tag">AWS S3</span><span class="tag">Databricks</span><span class="tag">Spark</span></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="max-w-2xl mx-auto text-center glass-panel p-10 rounded-2xl">
+        <h2 class="font-inter mb-3">Want to know what's really happening in your business?</h2>
+        <p style="color:var(--text-muted);margin-bottom:2rem;">We start with a free data audit — we'll show you what you're missing and how long it would take to fix.</p>
+        <a onclick="navigateTo('#contact')" class="btn-primary" style="font-size:1rem;padding:0.9rem 2.25rem;">Get a Free Data Audit <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></a>
+      </div>
+
+    </section>
+  </div>
+
+  <!-- ==================== VIEW: CAREER ==================== -->
+  <div id="career" class="view-container">
+    <section class="max-w-7xl mx-auto px-6 py-16">
+      <div class="text-center mb-16">
+        <span class="eyebrow">Work With Us</span>
+        <h1 class="text-4xl md:text-5xl font-inter font-bold text-white mt-3">Join Our Team</h1>
+        <p class="text-slate-300 max-w-xl mx-auto mt-4 text-base font-inter">We are a team of passionate engineers who love solving hard problems. If you are great at what you do and want to do meaningful work, we want to hear from you.</p>
+      </div>
+
+      <!-- Career Job Openings Grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <!-- Job 1 -->
+        <div class="glass-panel p-8 rounded-xl border border-[var(--mist-border)] flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-mono text-[var(--signal-2)] block mb-2">SECOPS • FULLTIME REMOTE</span>
+            <h3 class="font-inter font-bold text-lg text-white mb-2">L3 Penetration Tester</h3>
+            <p class="text-slate-300 text-sm leading-relaxed mb-6">Conduct advanced threat simulations on critical financial client systems. OSCP or equivalent certification required.</p>
+          </div>
+          <button onclick="openApplyModal('L3 Penetration Tester')" class="btn-primary w-full">Apply Now</button>
+        </div>
+        <!-- Job 2 -->
+        <div class="glass-panel p-8 rounded-xl border border-[var(--mist-border)] flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-mono text-[var(--signal-2)] block mb-2">DATA SCIENCE • REMOTE</span>
+            <h3 class="font-inter font-bold text-lg text-white mb-2">Lead Pipeline Architect</h3>
+            <p class="text-slate-300 text-sm leading-relaxed mb-6">Build distributed event pipelines utilizing Apache Kafka, dbt, and modern cluster warehouses for multi-tenant SaaS environments.</p>
+          </div>
+          <button onclick="openApplyModal('Lead Pipeline Architect')" class="btn-primary w-full">Apply Now</button>
+        </div>
+        <!-- Job 3 -->
+        <div class="glass-panel p-8 rounded-xl border border-[var(--mist-border)] flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-mono text-[var(--signal-2)] block mb-2">DEVOPS • FULLTIME REMOTE</span>
+            <h3 class="font-inter font-bold text-lg text-white mb-2">Cloud Systems Engineer</h3>
+            <p class="text-slate-300 text-sm leading-relaxed mb-6">Standardize cloud resources via scalable Terraform configurations and secure Kubernetes orchestration models.</p>
+          </div>
+          <button onclick="openApplyModal('Cloud Systems Engineer')" class="btn-primary w-full">Apply Now</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── STREAMING_CHUNK: Direct Job Application Portal Modal ── -->
+    <div id="apply-modal" class="hidden fixed inset-0 bg-[#020810]/95 z-[9999] flex justify-center items-center p-4 backdrop-blur-md">
+      <div class="max-w-lg w-full glass-panel border border-[var(--signal)] p-8 rounded-2xl relative shadow-[0_0_50px_var(--signal-glow)]">
+        <button onclick="closeApplyModal()" class="absolute top-6 right-6 text-slate-400 hover:text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+        <div class="border-b border-[var(--mist-border)] pb-4 mb-6">
+          <span class="text-xs font-mono text-[var(--signal-2)] tracking-widest block uppercase">JOB APPLICATION</span>
+          <h3 id="modal-job-title" class="font-inter font-bold text-2xl text-white mt-1">Apply Now</h3>
+        </div>
+        
+        <form onsubmit="event.preventDefault(); submitApplication();" class="space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Full Name *</label>
+            <input type="text" id="app-name" required class="w-full bg-slate-950/80 border border-[var(--mist-border)] rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-[var(--signal)] transition-colors" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Email *</label>
+            <input type="email" id="app-email" required class="w-full bg-slate-950/80 border border-[var(--mist-border)] rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-[var(--signal)] transition-colors" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Portfolio or LinkedIn URL *</label>
+            <input type="url" id="app-portfolio" required class="w-full bg-slate-950/80 border border-[var(--mist-border)] rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-[var(--signal)] transition-colors" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-slate-300 uppercase tracking-wider mb-1">Resume (PDF) *</label>
+            <div id="app-resume-drop" class="w-full h-24 border border-dashed border-[var(--mist-border)] rounded-lg bg-slate-950/40 hover:bg-slate-950 hover:border-[var(--signal)] flex flex-col justify-center items-center transition-colors cursor-pointer p-4">
+              <svg class="w-6 h-6 text-slate-400 mb-1" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5h10.5a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0017.25 4.5H6.75A2.25 2.25 0 004.5 6.75v10.5a2.25 2.25 0 002.25 2.25z"/></svg>
+              <span id="app-resume-text" class="text-xs text-slate-400 uppercase tracking-wider font-semibold">Click to upload your resume</span>
+            </div>
+            <input type="file" id="app-resume-file" class="hidden" required onchange="handleResumeAttached(this)" />
+          </div>
+          <button type="submit" class="btn-primary w-full">Submit Application</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== VIEW: BLOG ==================== -->
+  <div id="blog" class="view-container">
+    <section class="max-w-7xl mx-auto px-6 py-16">
+      <div class="text-center mb-16">
+        <span class="eyebrow">Insights &amp; Updates</span>
+        <h1 class="text-4xl md:text-5xl font-inter font-bold text-white mt-3">From Our Team</h1>
+        <p class="text-slate-300 max-w-xl mx-auto mt-4 text-base font-inter">Practical guides and insights written by our engineers to help you stay ahead in cybersecurity and technology.</p>
+      </div>
+
+      <!-- Blog Grid -->
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        <!-- Post 1 -->
+        <div onclick="openBlogPost('blog-post-1')" class="glass-card rounded-xl border border-[var(--mist-border)] overflow-hidden cursor-pointer flex flex-col justify-between h-[360px]">
+          <div class="p-6">
+            <span class="text-xs font-mono text-[var(--signal-2)] tracking-wide uppercase block mb-3">June 24, 2026 • 6 min read</span>
+            <h3 class="font-inter font-bold text-lg text-white mb-3">Designing Zero-Trust Network Topologies</h3>
+            <p class="text-slate-300 text-sm leading-relaxed">Abandoning traditional firewall boundaries for micro-segmentation models. Establish workspace isolation vectors globally.</p>
+          </div>
+          <div class="px-6 pb-6 text-sm font-inter font-semibold text-[var(--signal)] inline-flex items-center gap-1.5 hover:text-white transition-colors">Read Article <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></div>
+        </div>
+
+        <!-- Post 2 -->
+        <div onclick="openBlogPost('blog-post-2')" class="glass-card rounded-xl border border-[var(--mist-border)] overflow-hidden cursor-pointer flex flex-col justify-between h-[360px]">
+          <div class="p-6">
+            <span class="text-xs font-mono text-[var(--signal-2)] tracking-wide uppercase block mb-3">June 18, 2026 • 8 min read</span>
+            <h3 class="font-inter font-bold text-lg text-white mb-3">Scale Benchmarks: Kafka vs gRPC</h3>
+            <p class="text-slate-300 text-sm leading-relaxed">Comparing latency statistics during active multi-million transaction stress simulations in Docker environments.</p>
+          </div>
+          <div class="px-6 pb-6 text-sm font-inter font-semibold text-[var(--signal)] inline-flex items-center gap-1.5 hover:text-white transition-colors">Read Article <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></div>
+        </div>
+
+        <!-- Post 3 -->
+        <div onclick="openBlogPost('blog-post-3')" class="glass-card rounded-xl border border-[var(--mist-border)] overflow-hidden cursor-pointer flex flex-col justify-between h-[360px]">
+          <div class="p-6">
+            <span class="text-xs font-mono text-[var(--signal-2)] tracking-wide uppercase block mb-3">June 09, 2026 • 5 min read</span>
+            <h3 class="font-inter font-bold text-lg text-white mb-3">Cost-Optimized IaC Cloud Budgets</h3>
+            <p class="text-slate-300 text-sm leading-relaxed">Writing intelligent Terraform modules to identify over-provisioned instances and minimize infrastructure pricing waste.</p>
+          </div>
+          <div class="px-6 pb-6 text-sm font-inter font-semibold text-[var(--signal)] inline-flex items-center gap-1.5 hover:text-white transition-colors">Read Article <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/></svg></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── STREAMING_CHUNK: Dedicated Blog Detail Reader Modal ── -->
+    <div id="blog-modal" class="hidden fixed inset-0 bg-[#020810]/95 z-[9999] overflow-y-auto p-4 md:p-8 backdrop-blur-md">
+      <div class="max-w-3xl mx-auto glass-panel border border-[var(--mist-border)] rounded-2xl p-8 md:p-12 relative my-8 shadow-[0_0_50px_var(--signal-glow)]">
+        <button onclick="closeBlogPost()" class="absolute top-6 right-6 text-slate-400 hover:text-white">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+        <div class="border-b border-[var(--mist-border)] pb-4 mb-6">
+          <span id="blog-modal-date" class="eyebrow">June 24, 2026 • 6 min read</span>
+          <h1 id="blog-modal-title" class="font-inter font-bold text-3xl md:text-4xl text-white mt-2 leading-tight">Post Title</h1>
+        </div>
+        <div id="blog-modal-body" class="space-y-5 font-inter" style="font-size:1rem;line-height:1.8;color:var(--text-muted);">
+          <!-- Post Contents Injected here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== VIEW: CLIENT PORTAL DEMO ==================== -->
+  <div id="sandbox" class="view-container">
+    <section class="max-w-7xl mx-auto px-6 py-16">
+      <div class="text-center mb-12">
+        <span class="eyebrow">Systems Command Centre</span>
+        <h1 class="font-inter">See Our Platform in Action</h1>
+        <p class="text-slate-300 max-w-xl mx-auto mt-4 text-base font-inter">Explore the live sandbox terminal showing telemetry logs, threat blocks, and active database clusters.</p>
+      </div>
+
+      <!-- Dashboard Panel -->
+      <div class="grid lg:grid-cols-3 gap-6 max-w-6xl mx-auto items-stretch">
+        
+        <!-- Live Logging Terminal -->
+        <div class="lg:col-span-2 bg-[#020810] border border-[var(--mist-border)] rounded-xl overflow-hidden shadow-2xl flex flex-col h-[500px]">
+          <div class="bg-slate-950 px-4 py-3 border-b border-[var(--mist-border)] flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="w-3 h-3 rounded-full bg-red-500/80"></span>
+              <span class="w-3 h-3 rounded-full bg-yellow-500/80"></span>
+              <span class="w-3 h-3 rounded-full bg-green-500/80"></span>
+              <span class="ml-2 font-mono text-xs text-slate-400">[active-secops-stream]</span>
+            </div>
+            <span class="text-xs font-mono text-slate-500">HTTPS CERT SECURE</span>
+          </div>
+          <div id="sandbox-logs" class="flex-1 p-4 overflow-y-auto font-mono text-xs text-emerald-400 space-y-1.5 bg-black/90">
+            <!-- Simulated secure container logs -->
+          </div>
+        </div>
+
+        <!-- Telemetry & Database Analytics -->
+        <div class="glass-panel border border-[var(--mist-border)] p-6 rounded-xl flex flex-col justify-between h-[500px]">
+          <div>
+            <div class="border-b border-[var(--mist-border)] pb-3 mb-6">
+              <h3 class="font-inter font-bold text-md text-white">Interactive Systems Health</h3>
+              <span class="text-xs font-mono text-slate-400 uppercase tracking-widest">Active Cluster Metrics</span>
+            </div>
+            
+            <div class="space-y-6">
+              <!-- Fluctuating Database Replication metric -->
+              <div>
+                <div class="flex justify-between items-center text-xs font-mono mb-1">
+                  <span class="text-slate-300">Database Sync Status</span>
+                  <span id="metric-db-pct" class="text-[var(--signal-2)] font-bold">100% Isolated</span>
+                </div>
+                <div class="w-full bg-slate-950 h-1.5 rounded-full overflow-hidden">
+                  <div id="metric-db-bar" class="bg-[var(--signal)] h-full transition-all duration-300" style="width: 100%"></div>
+                </div>
+              </div>
+
+              <!-- Threat containment indicator -->
+              <div class="bg-slate-950 p-4 rounded-lg border border-[var(--mist-border)]">
+                <span class="text-xs font-mono text-slate-500 block uppercase mb-1">Container Threat Containment Shield</span>
+                <div class="flex items-center gap-2">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping"></span>
+                  <span class="text-xs font-mono text-emerald-400 font-bold">ZERO SECURITY THREATS DETECTED</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Dynamic Fluctuating Load Canvas Chart -->
+          <div class="mt-6">
+            <span class="text-xs font-mono text-slate-500 block uppercase mb-2">Simulated CPU Multi-Cluster Load</span>
+            <canvas id="sandbox-chart" class="w-full h-32 bg-slate-950 rounded-lg border border-[var(--mist-border)]"></canvas>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- ==================== VIEW: CONTACT ==================== -->
+  <div id="contact" class="view-container">
+    <section class="max-w-7xl mx-auto px-6 py-16">
+      <div class="max-w-4xl mx-auto text-center mb-16">
+        <span class="eyebrow">Get In Touch</span>
+        <h1 class="text-4xl font-inter font-bold text-white mt-3">Let's Talk About Your Project</h1>
+        <p class="text-slate-300 text-base font-inter mt-4">No sales scripts, no runaround. You'll speak directly with the experts who will actually work on your project.</p>
+      </div>
+
+      <!-- Scoping layout grid -->
+      <div class="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto items-stretch">
+        
+        <!-- Scoping Milestones info -->
+        <div class="flex flex-col justify-between">
+          <div>
+            <div class="border-b border-[var(--mist-border)] pb-4 mb-8">
+              <span class="text-xs font-inter text-[var(--signal-2)] tracking-widest block uppercase">What happens next</span>
+              <h3 class="font-inter font-bold text-2xl text-white mt-1">What happens after you reach out?</h3>
+            </div>
+
+            <div class="space-y-6">
+              <div class="flex gap-4">
+                <div class="w-8 h-8 rounded-full border border-[var(--signal)] bg-[var(--signal-dim)] text-[var(--signal-2)] flex items-center justify-center font-mono font-bold text-xs flex-shrink-0 mt-1">1</div>
+                <div>
+                  <h4 class="font-inter">We review your request</h4>
+                  <p class="text-slate-300 text-sm leading-relaxed mt-1">A senior expert from the right team reviews your project details within 24 hours.</p>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div class="w-8 h-8 rounded-full border border-[var(--signal)] bg-[var(--signal-dim)] text-[var(--signal-2)] flex items-center justify-center font-mono font-bold text-xs flex-shrink-0 mt-1">2</div>
+                <div>
+                  <h4 class="font-inter">We sign an NDA if needed</h4>
+                  <p class="text-slate-300 text-sm leading-relaxed mt-1">If your project requires confidentiality, we'll sign an NDA before you share any sensitive details.</p>
+                </div>
+              </div>
+              <div class="flex gap-4">
+                <div class="w-8 h-8 rounded-full border border-[var(--signal)] bg-[var(--signal-dim)] text-[var(--signal-2)] flex items-center justify-center font-mono font-bold text-xs flex-shrink-0 mt-1">3</div>
+                <div>
+                  <h4 class="font-inter">You get a clear proposal</h4>
+                  <p class="text-slate-300 text-sm leading-relaxed mt-1">You receive a plain-language proposal with clear pricing, timeline, and exactly who will be working on your project.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Direct Phone numbers -->
+          <div class="border-t border-[var(--mist-border)] pt-8 mt-12 space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full border border-[var(--mist-border)] bg-slate-900 flex items-center justify-center text-[var(--signal)]">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.622l1.042-.128a4.851 4.851 0 013.783 1.542l1.242 1.49a4.853 4.853 0 01.921 3.405l-.183 1.255a4.853 4.853 0 001.392 3.783l1.757 1.757a4.853 4.853 0 003.783 1.392l1.255-.183a4.854 4.854 0 013.405.921l1.49 1.242a4.851 4.851 0 011.542 3.783l-.128 1.042A3.375 3.375 0 0118.75 21.75h-1c-8.423 0-15.25-6.827-15.25-15.25v-1A3.375 3.375 0 012.25 6.622z"/></svg>
+              </div>
+              <div class="font-inter">
+                <span class="text-slate-400 block text-sm mb-1">Call us</span>
+                <a href="tel:+919041375768" class="text-slate-100 hover:text-[var(--signal)] mr-4 font-semibold text-sm">+91-9041375768</a>
+                <a href="tel:+919211218205" class="text-slate-100 hover:text-[var(--signal)] font-semibold text-sm">+91-9211218205</a>
+              </div>
+            </div>
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full border border-[var(--mist-border)] bg-slate-900 flex items-center justify-center text-[var(--signal)]">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75"/></svg>
+              </div>
+              <div class="font-inter">
+                <span class="text-slate-400 block text-sm mb-1">Email us</span>
+                <span class="text-slate-100 font-semibold text-sm">paradoxicantechnologies@gmail.com</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Consultation Scoping Form -->
+        <form onsubmit="event.preventDefault(); submitBriefing();" class="glass-panel p-8 rounded-2xl border border-[var(--mist-border)] space-y-4">
+          <div class="border-b border-[var(--mist-border)] pb-3 mb-4">
+            <span class="eyebrow">Send us a message</span>
+            <h4 class="font-inter font-bold text-xl text-white mt-1">Tell us what you need</h4>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Full Name *</label>
+            <input type="text" id="contact-name" required class="w-full bg-slate-950/80 border border-[var(--mist-border)] rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-[var(--signal)] transition-colors" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Work Email *</label>
+            <input type="email" id="contact-email" required class="w-full bg-slate-950/80 border border-[var(--mist-border)] rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-[var(--signal)] transition-colors" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Company Name *</label>
+            <input type="text" id="contact-company" required class="w-full bg-slate-950/80 border border-[var(--mist-border)] rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-[var(--signal)] transition-colors" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Phone Number *</label>
+            <input type="tel" id="contact-phone" required class="w-full bg-slate-950/80 border border-[var(--mist-border)] rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-[var(--signal)] transition-colors" />
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">How can we help? *</label>
+            <select id="contact-segment" required class="w-full bg-slate-950/80 border border-[var(--mist-border)] rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-[var(--signal)] transition-colors">
+              <option value="" disabled selected>Select a service...</option>
+              <option value="Cybersec Unit">01. SecOps & Compliance Squad</option>
+              <option value="Cloud Architecture">Cloud Infrastructure</option>
+              <option value="Software Development">Custom Software Development</option>
+              <option value="vCTO Consulting">IT Strategy &amp; Consulting</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1.5">Tell us about your project *</label>
+            <textarea id="contact-scope" rows="4" required class="w-full bg-slate-950/80 border border-[var(--mist-border)] rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-[var(--signal)] transition-colors"></textarea>
+          </div>
+          <button type="submit" class="btn-primary w-full">Send Message</button>
+        </form>
+      </div>
+    </section>
+  </div>
+
+</main>
+
+<!-- ── STREAMING_CHUNK: Site GDPR Consent Banner ── -->
+<div id="gdpr-banner" class="fixed bottom-4 right-4 max-w-sm glass-panel border border-[var(--signal)] p-6 rounded-xl shadow-2xl z-[9999] flex flex-col gap-3">
+  <div class="flex items-start gap-3">
+    <div class="text-[var(--signal)] mt-1 flex-shrink-0">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12.75L11.25 15 15 9.75M21 12c0 1.268-.63 2.39-1.593 3.068a3.745 3.745 0 01-1.043 3.296 3.745 3.745 0 01-3.296 1.043A3.745 3.745 0 0112 21c-1.268 0-2.39-.63-3.068-1.593a3.746 3.746 0 01-3.296-1.043 3.745 3.745 0 01-1.043-3.296A3.745 3.745 0 013 12z"/></svg>
+    </div>
+    <div>
+      <h4 class="font-inter font-semibold text-sm text-white">We use cookies</h4>
+      <p class="text-sm text-slate-400 font-inter mt-1 leading-relaxed">We use essential cookies to improve your experience on our site. No personal data is sold or shared.</p>
+    </div>
+  </div>
+  <div class="flex justify-end gap-2 text-xs font-mono">
+    <button onclick="acceptGDPR()" class="bg-[var(--signal)] text-slate-900 font-semibold text-sm px-4 py-2 rounded-lg hover:bg-[var(--signal-2)] transition-colors">Got it</button>
+  </div>
+</div>
+
+<!-- ── STREAMING_CHUNK: Site Legal Policy Modals ── -->
+<div id="legal-modal" class="hidden fixed inset-0 bg-[#020810]/95 z-[9999] flex justify-center items-center p-4 backdrop-blur-md">
+  <div class="max-w-xl w-full glass-panel border border-[var(--mist-border)] p-8 rounded-2xl relative shadow-[0_0_50px_var(--signal-glow)]">
+    <button onclick="closeLegalModal()" class="absolute top-6 right-6 text-slate-400 hover:text-white">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <div class="border-b border-[var(--mist-border)] pb-4 mb-6">
+      <h3 id="legal-title" class="font-inter font-bold text-2xl text-white">Legal Document</h3>
+    </div>
+    <div class="max-h-[300px] overflow-y-auto text-xs text-slate-400 font-inter space-y-4 pr-2 leading-relaxed">
+      <p><strong>Last Updated: June 2026</strong></p>
+      <p>This document governs the secure technical parameters and cloud isolation standards maintained by Paradoxican Technologies during direct project allocations.</p>
+      <p>All virtual database systems, network firewalls, and pipeline deployments adhere completely to AES-256 data rotation policies, restricting metadata transmissions strictly to sovereign, designated host structures.</p>
+      <p>By engaging with our interactive cost analyzers or scheduling diagnostics briefings, you authorize our SecOps automation engines to verify metadata endpoints for trace lateral security risks prior to custom code compilation.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ── STREAMING_CHUNK: Site Footer ── -->
+<footer class="border-t border-[var(--mist-border)] bg-slate-950/80 py-16">
+  <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 lg:grid-cols-4 gap-10">
+    <div>
+      <a href="#home" onclick="navigateTo('#home')" class="flex items-center gap-3 font-inter font-bold text-md tracking-normal mb-4">
+        <div class="relative w-8 h-8 rounded-full overflow-hidden flex items-center justify-center border border-[var(--mist-border)]">
+          <img class="w-full h-full object-cover mix-blend-screen" src="WhatsApp%20Image%202026-06-23%20at%203.35.18%20PM.jpeg" alt="Paradoxican Logo" onerror="handleLogoError(this)" />
+        </div>
+        <span class="text-slate-100 uppercase tracking-widest text-xs">Paradoxican</span>
+      </a>
+      <p class="text-sm text-slate-400 font-inter leading-relaxed">We help businesses stay secure, move to the cloud, and build better software. Simple as that.</p>
+    </div>
+    <div>
+      <h4 class="eyebrow mb-4" style="display:block;">Our Services</h4>
+      <ul class="space-y-3" style="font-size:0.9rem;color:var(--text-muted);">
+        <li><a onclick="navigateTo('#cybersecurity')" class="hover:text-[var(--signal-2)] cursor-pointer">SecOps & Threat Prevention</a></li>
+        <li><a onclick="navigateTo('#it-consulting')" class="hover:text-[var(--signal-2)] cursor-pointer">IT Consulting</a></li>
+        <li><a onclick="navigateTo('#managed-it')" class="hover:text-[var(--signal-2)] cursor-pointer">Managed IT Support</a></li>
+        <li><a onclick="navigateTo('#software-dev')" class="hover:text-[var(--signal-2)] cursor-pointer">Software Development</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="eyebrow mb-4" style="display:block;">Navigation</h4>
+      <ul class="space-y-3" style="font-size:0.9rem;color:var(--text-muted);">
+        <li><a onclick="navigateTo('#home')" class="hover:text-[var(--signal-2)] cursor-pointer">Home</a></li>
+        <li><a onclick="navigateTo('#about-us')" class="hover:text-[var(--signal-2)] cursor-pointer">About Us</a></li>
+        <li><a onclick="navigateTo('#career')" class="hover:text-[var(--signal-2)] cursor-pointer">Careers</a></li>
+        <li><a onclick="navigateTo('#blog')" class="hover:text-[var(--signal-2)] cursor-pointer">Blog</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="eyebrow mb-4" style="display:block;">Unified Communications</h4>
+      <p class="text-[11px] text-slate-400 font-mono mb-2">Direct Scoping Briefings:</p>
+      <p class="text-[11px] text-slate-300 font-bold mb-4 font-mono leading-relaxed">
+        <a href="tel:+919041375768" class="hover:text-[var(--signal)]">+91-9041375768</a><br />
+        <a href="tel:+919211218205" class="hover:text-[var(--signal)]">+91-9211218205</a>
+      </p>
+      <span class="text-xs text-slate-500 font-mono block">paradoxicantechnologies@gmail.com</span>
+    </div>
+  </div>
+  <div class="max-w-7xl mx-auto px-6 border-t border-[var(--mist-border)] mt-12 pt-8 flex flex-col md:flex-row justify-between items-center text-xs font-mono text-slate-500 gap-4">
+    <span>© 2026 Paradoxican Technologies. Verified Zero-Trust Environment.</span>
+    <div class="flex gap-4">
+      <a onclick="openLegalModal('Privacy Policy')" class="hover:text-[var(--signal-2)] cursor-pointer">Privacy Policy</a>
+      <a onclick="openLegalModal('Terms of Service')" class="hover:text-[var(--signal-2)] cursor-pointer">Terms of Service</a>
+      <a onclick="openLegalModal('GDPR & Sovereign Compliance')" class="hover:text-[var(--signal-2)] cursor-pointer">Sovereign Compliance</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ── STREAMING_CHUNK: Core Application Logic, Routers & Sandbox Telemetry ── -->
+<script>
+  // Dynamic Accent Theme Switching
+  function changeAccent(theme) {
+    const root = document.documentElement;
+    root.classList.remove('theme-green', 'theme-purple');
+    if (theme === 'green') root.classList.add('theme-green');
+    if (theme === 'purple') root.classList.add('theme-purple');
+  }
+
+  // SPA View Navigation Manager
+  function navigateTo(targetHash) {
+    const fallbackId = 'home';
+    const cleanId = targetHash.replace('#', '') || fallbackId;
+    const views = document.querySelectorAll('.view-container');
+    let found = false;
+
+    views.forEach(v => {
+      v.classList.remove('active-view');
+      if (v.id === cleanId) {
+        v.classList.add('active-view');
+        found = true;
+      }
+    });
+
+    if (!found) {
+      document.getElementById('home').classList.add('active-view');
+    }
+
+    // Nav Item Highlight management
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.classList.remove('active');
+      const itemAction = item.getAttribute('onclick');
+      if (itemAction && itemAction.includes(`'#${cleanId}'`)) {
+        item.classList.add('active');
+      }
+    });
+
+    history.pushState(null, null, targetHash || '#');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Initialize navigation on load
+  window.addEventListener('load', () => {
+    const hash = window.location.hash || '#home';
+    navigateTo(hash);
+  });
+  window.addEventListener('hashchange', () => {
+    navigateTo(window.location.hash || '#home');
+  });
+
+  function closeMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    if (menu) menu.classList.add('hidden');
+  }
+
+  function toggleMobileMenu() {
+    const menu = document.getElementById('mobile-menu');
+    menu.classList.toggle('hidden');
+  }
+
+  // Close when clicking outside the nav
+  document.addEventListener('click', function(e) {
+    const menu = document.getElementById('mobile-menu');
+    const nav  = document.querySelector('nav');
+    if (menu && !menu.classList.contains('hidden') && nav && !nav.contains(e.target)) {
+      closeMobileMenu();
+    }
+  });
+
+  // Close when resizing to desktop width
+  window.addEventListener('resize', function() {
+    if (window.innerWidth >= 1024) closeMobileMenu();
+  });
+
+  // Close on scroll (more than 50px)
+  window.addEventListener('scroll', function() {
+    closeMobileMenu();
+  }, { passive: true });
+
+  // ── Preloader: dismiss after short delay ──
+  function dismissPreloader() {
+    const loader = document.getElementById('preloader');
+    if (!loader) return;
+    loader.style.transition = 'opacity 0.5s ease';
+    loader.style.opacity = '0';
+    setTimeout(() => { if (loader.parentNode) loader.parentNode.removeChild(loader); }, 520);
+  }
+  document.addEventListener('DOMContentLoaded', () => setTimeout(dismissPreloader, 1200));
+  setTimeout(dismissPreloader, 4000);
+
+  // ── STREAMING_CHUNK: Matrix Particle Canvas ── -->
+  const canvas = document.getElementById('matrix-bg');
+  const ctx = canvas.getContext('2d');
+  let particles = [];
+  let mouse = { x: null, y: null, radius: 150 };
+
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.x;
+    mouse.y = e.y;
+  });
+  window.addEventListener('mouseout', () => {
+    mouse.x = null;
+    mouse.y = null;
+  });
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * canvas.width;
+      this.y = Math.random() * canvas.height;
+      this.size = Math.random() * 2 + 1;
+      this.speedX = Math.random() * 0.4 - 0.2;
+      this.speedY = Math.random() * 0.4 - 0.2;
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+
+      if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+      if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+
+      // Mouse displacement
+      if (mouse.x && mouse.y) {
+        let dx = mouse.x - this.x;
+        let dy = mouse.y - this.y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < mouse.radius) {
+          let force = (mouse.radius - dist) / mouse.radius;
+          this.x -= dx / dist * force * 3;
+          this.y -= dy / dist * force * 3;
+        }
+      }
+    }
+    draw() {
+      ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue('--signal').trim();
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function initParticles() {
+    particles = [];
+    let count = Math.min(60, Math.floor((canvas.width * canvas.height) / 25000));
+    for (let i = 0; i < count; i++) {
+      particles.push(new Particle());
+    }
+  }
+  initParticles();
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Draw connection lines
+    let signalColor = getComputedStyle(document.documentElement).getPropertyValue('--signal').trim();
+    ctx.strokeStyle = signalColor;
+    ctx.lineWidth = 0.4;
+
+    for (let i = 0; i < particles.length; i++) {
+      particles[i].update();
+      particles[i].draw();
+
+      for (let j = i + 1; j < particles.length; j++) {
+        let dx = particles[i].x - particles[j].x;
+        let dy = particles[i].y - particles[j].y;
+        let dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < 150) {
+          ctx.beginPath();
+          ctx.moveTo(particles[i].x, particles[i].y);
+          ctx.lineTo(particles[j].x, particles[j].y);
+          ctx.strokeStyle = `rgba(${signalColor === '#10B981' ? '16,185,129' : signalColor === '#8B5CF6' ? '139,92,246' : '77,159,255'}, ${1 - (dist / 150)})`;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(animateParticles);
+  }
+  animateParticles();
+
+  // ── STREAMING_CHUNK: ROI Calculator Operations ── -->
+  let estService = 'cybersec';
+  let estSLA = 'standard';
+
+  function setEstimatorService(service) {
+    estService = service;
+    document.querySelectorAll('.est-srv-btn').forEach(b => {
+      b.classList.remove('bg-[var(--signal-dim)]', 'text-[var(--signal-2)]', 'border-[var(--signal)]');
+      b.classList.add('border-[var(--mist-border)]', 'text-slate-400');
+    });
+    const activeBtn = document.getElementById(`est-${service}`);
+    activeBtn.classList.remove('border-[var(--mist-border)]', 'text-slate-400');
+    activeBtn.classList.add('bg-[var(--signal-dim)]', 'text-[var(--signal-2)]', 'border-[var(--signal)]');
+    calculateEstimates();
+  }
+
+  function setEstimatorSLA(sla) {
+    estSLA = sla;
+    document.querySelectorAll('.est-sla-btn').forEach(b => {
+      b.classList.remove('bg-[var(--signal-dim)]', 'text-[var(--signal-2)]', 'border-[var(--signal)]');
+      b.classList.add('border-[var(--mist-border)]', 'text-slate-400');
+    });
+    const activeBtn = document.getElementById(`est-sla-${sla === 'standard' ? 'std' : 'ha'}`);
+    activeBtn.classList.remove('border-[var(--mist-border)]', 'text-slate-400');
+    activeBtn.classList.add('bg-[var(--signal-dim)]', 'text-[var(--signal-2)]', 'border-[var(--signal)]');
+    calculateEstimates();
+  }
+
+  function calculateEstimates() {
+    const scale = parseInt(document.getElementById('cloud-scale').value);
+    document.getElementById('scale-val').textContent = `${scale} Clusters / Servers`;
+
+    let baseROI = 120;
+    let baseCO2 = 10;
+
+    if (estService === 'cloud') { baseROI = 180; baseCO2 = 25; }
+    if (estService === 'saas') { baseROI = 220; baseCO2 = 18; }
+
+    let multiplier = estSLA === 'ha' ? 1.4 : 1.0;
+    let finalROI = Math.min(480, Math.floor(baseROI * multiplier * (scale / 50)));
+    let finalCO2 = Math.min(85, Math.floor(baseCO2 * multiplier * (scale / 50)));
+
+    document.getElementById('roi-pct').textContent = `+${finalROI}% Efficiency`;
+    document.getElementById('co2-pct').textContent = `-${finalCO2}% Overhead`;
+  }
+  calculateEstimates();
+
+  // ── STREAMING_CHUNK: Cybersecurity Self-Audit score math ── -->
+  function computeAuditScore() {
+    const checkboxes = document.querySelectorAll('.audit-check');
+    let checkedCount = 0;
+    checkboxes.forEach(c => { if (c.checked) checkedCount++; });
+
+    const pctSecure = checkedCount * 20;
+    const scoreBubble = document.getElementById('audit-score-bubble');
+    const tierEl = document.getElementById('audit-tier');
+
+    scoreBubble.textContent = `${pctSecure}% Secure`;
+
+    if (pctSecure === 0) {
+      scoreBubble.className = "text-2xl font-mono font-bold text-red-400";
+      tierEl.textContent = "Needs Attention";
+      tierEl.className = "text-base font-inter font-bold text-red-400";
+    } else if (pctSecure <= 40) {
+      scoreBubble.className = "text-3xl font-mono font-bold text-orange-500";
+      tierEl.textContent = "High Risk Level";
+      tierEl.className = "text-lg font-inter font-bold text-orange-400";
+    } else if (pctSecure <= 80) {
+      scoreBubble.className = "text-3xl font-mono font-bold text-yellow-500";
+      tierEl.textContent = "Moderate Defense Core";
+      tierEl.className = "text-lg font-inter font-bold text-yellow-400";
+    } else {
+      scoreBubble.className = "text-3xl font-mono font-bold text-emerald-500";
+      tierEl.textContent = "Zero Trust Compliant";
+      tierEl.className = "text-lg font-inter font-bold text-emerald-400";
+    }
+  }
+  computeAuditScore();
+
+  // ── STREAMING_CHUNK: Testimonial Carousel Deck ── -->
+  const testimonials = [
+    {
+      content: "“Paradoxican's threat management squad locked down our financial databases under zero trust segmentations. Absolutely flawless containment speed.”",
+      author: "Chief Risk Officer — Nexis Bank Corp",
+      metrics: "99.999% SLA UPTIME SECURED"
+    },
+    {
+      content: "“Our AWS systems costs dropped by exactly 42% after executing their Terraform auto-scaling modules. Meticulous precision developers.”",
+      author: "V-P Systems Scale — CloudSync International",
+      metrics: "-42% CAPEX RESOURCE SAVED"
+    },
+    {
+      content: "“The multi-tenant SaaS software architecture completed by their developer squads handles millions of queries daily with zero defect latency.”",
+      author: "Director of Software — CoreSaaS Logistics",
+      metrics: "500K REQUESTS/SEC DELIVERED"
+    }
+  ];
+
+  let currentTestimonialIndex = 0;
+
+  function displayTestimonial() {
+    const t = testimonials[currentTestimonialIndex];
+    const container = document.getElementById('test-content-area');
+    
+    container.style.opacity = '0';
+    container.style.transform = 'translateY(5px)';
+
+    setTimeout(() => {
+      container.innerHTML = `<p class="text-slate-200 text-lg md:text-xl font-inter font-semibold leading-relaxed">${t.content}</p>`;
+      document.getElementById('test-metrics').textContent = t.metrics;
+      document.getElementById('test-author').textContent = t.author;
+      container.style.opacity = '1';
+      container.style.transform = 'translateY(0)';
+    }, 200);
+  }
+
+  function nextTestimonial() {
+    currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonials.length;
+    displayTestimonial();
+  }
+  function prevTestimonial() {
+    currentTestimonialIndex = (currentTestimonialIndex - 1 + testimonials.length) % testimonials.length;
+    displayTestimonial();
+  }
+  displayTestimonial();
+
+  // ── STREAMING_CHUNK: FAQ Accordion Toggle mechanics ── -->
+  function toggleFAQ(button) {
+    const content = button.nextElementSibling;
+    const svg = button.querySelector('svg');
+    const allFAQContents = document.querySelectorAll('.faq-content');
+    const allFAQSvgs = document.querySelectorAll('.faq-content-btn svg'); // Helper
+
+    // Toggle active
+    if (content.style.maxHeight === "" || content.style.maxHeight === "0px") {
+      content.style.maxHeight = content.scrollHeight + "px";
+      content.style.opacity = "1";
+      svg.style.transform = "rotate(180deg)";
+    } else {
+      content.style.maxHeight = "0px";
+      content.style.opacity = "0";
+      svg.style.transform = "";
+    }
+  }
+
+  // ── STREAMING_CHUNK: Direct Career Application Modal handler ── -->
+  function openApplyModal(jobTitle) {
+    document.getElementById('modal-job-title').textContent = `Apply: ${jobTitle}`;
+    document.getElementById('apply-modal').classList.remove('hidden');
+  }
+  function closeApplyModal() {
+    document.getElementById('apply-modal').classList.add('hidden');
+  }
+  function handleResumeAttached(input) {
+    const textEl = document.getElementById('app-resume-text');
+    if (input.files.length > 0) {
+      textEl.textContent = `Attached: ${input.files[0].name}`;
+    }
+  }
+  // Simulated Resume click trigger
+  document.getElementById('app-resume-drop').addEventListener('click', () => {
+    document.getElementById('app-resume-file').click();
+  });
+
+  function submitApplication() {
+    const name = document.getElementById('app-name').value;
+    showNotification("Application Locked Successfully!", `Thank you, ${name}. Your candidate file is safely transmitted to our HR division.`);
+    closeApplyModal();
+  }
+
+  // ── STREAMING_CHUNK: Strategic Blog Detail Posts database ── -->
+  const blogPosts = {
+    'blog-post-1': {
+      title: "Designing Zero-Trust Network Topologies",
+      date: "June 24, 2026 • 6 min read",
+      body: `
+        <p>Traditional cybersecurity strategies rely entirely on network perimeter segmentation. We build firewalls around our host containers and assume that everything within those walls is secure. However, as modern microservice networks grow, this model fails entirely against lateral threat movements.</p>
+        <p>Zero-Trust Topologies solve this by abandoning perimeter trust altogether. Every micro-segmentation block, database connection call, and administrative request requires continuous execution verification parameters.</p>
+        <p class="font-bold text-[var(--signal)]">Key System Steps implemented by our SecOps division:</p>
+        <ul class="list-disc pl-5 space-y-2 mt-2">
+          <li><strong>Endpoint Authentication:</strong> Mandate robust mutual TLS configurations across all internal request layers.</li>
+          <li><strong>Micro-Segmentation:</strong> Segment user records from standard front-end assets so compromise states are immediately sandboxed.</li>
+          <li><strong>Constant Rotation:</strong> Configure automatic API tokens rotation every 15 minutes to guarantee that old access keys are instantly invalidated.</li>
+        </ul>
+      `
+    },
+    'blog-post-2': {
+      title: "Scale Benchmarks: Apache Kafka vs gRPC Channels",
+      date: "June 18, 2026 • 8 min read",
+      body: `
+        <p>In massive corporate database configurations, minimizing query delays is paramount. When syncing high-volume user activity datasets, choosing between standard message queues (Kafka) and direct RPC channels (gRPC) dictates your operational performance margins.</p>
+        <p>Our database development squad simulated petabyte workloads inside containerized environments to establish reliable scale parameters.</p>
+        <p class="font-bold text-[var(--signal)]">Simulation Output Parameters:</p>
+        <ul class="list-disc pl-5 space-y-2 mt-2">
+          <li><strong>Throughput (Apache Kafka):</strong> Successfully handled 400,000 logs/second with zero packet drop due to disk-replicated buffering models.</li>
+          <li><strong>Latency (gRPC Channels):</strong> Achieved exceptionally low latency levels (sub-4ms) during targeted point-to-point microservice requests.</li>
+        </ul>
+        <p>Conclusion: We recommend deploying Kafka as an immutable data warehouse pipeline buffer, while configuring gRPC for direct internal inter-service container updates.</p>
+      `
+    },
+    'blog-post-3': {
+      title: "Cost-Optimized IaC Cloud Budgets",
+      date: "June 09, 2026 • 5 min read",
+      body: `
+        <p>Many modern tech firms waste upwards of 35% of their cloud budget on over-provisioned staging clusters and idle virtual machines. Implementing system scaling parameters via Terraform allows our Cloud Architects to lock down unnecessary resource usage.</p>
+        <p>By writing structured Infrastructure as Code, we automate cost-control metrics based on live operational margins.</p>
+        <p class="font-bold text-[var(--signal)]">Active Cost Remediations:</p>
+        <ul class="list-disc pl-5 space-y-2 mt-2">
+          <li><strong>Automated Shutdown:</strong> Configure staging instances to spin down automatically during non-operational weekend hours.</li>
+          <li><strong>Resource Sizing:</strong> Dynamically map container allocations to system metrics to avoid paying for excess CPU memory pools.</li>
+        </ul>
+      `
+    }
+  };
+
+  function openBlogPost(postId) {
+    const post = blogPosts[postId];
+    if (post) {
+      document.getElementById('blog-modal-title').textContent = post.title;
+      document.getElementById('blog-modal-date').textContent = post.date;
+      document.getElementById('blog-modal-body').innerHTML = post.body;
+      document.getElementById('blog-modal').classList.remove('hidden');
+    }
+  }
+  function closeBlogPost() {
+    document.getElementById('blog-modal').classList.add('hidden');
+  }
+
+  // ── STREAMING_CHUNK: Sandbox Client Console Simulations ── -->
+  const logMessages = [
+    "[INFO] SecOps Terminal Session established securely.",
+    "[SECURE] Port 443 active. No external perimeter exposure.",
+    "[DB_SYNC] Replicating block #9283 across AWS multiregion networks...",
+    "[INFO] Zero-Trust segments verified for internal communication channels.",
+    "[OK] Threat Containment Shield active. 0 active exploits.",
+    "[SECURE] Initiating automatic SOC compliance checks...",
+    "[OK] SOC2 compliance benchmarks successfully locked.",
+    "[DB_SYNC] Database replication complete. Consistency validated.",
+    "[CONTAINER] Scanning microservice clusters for lateral risk parameters...",
+    "[OK] All active virtual perimeters verified secure."
+  ];
+
+  const logConsole = document.getElementById('sandbox-logs');
+
+  function updateSandboxLogs() {
+    if (logConsole) {
+      const p = document.createElement('p');
+      p.className = "leading-relaxed text-[var(--signal-2)]";
+      const randomMsg = logMessages[Math.floor(Math.random() * logMessages.length)];
+      p.textContent = `[{randomMsg}`;
+      logConsole.appendChild(p);
+      logConsole.scrollTop = logConsole.scrollHeight;
+
+      // Keep only last 50 logs
+      while (logConsole.children.length > 50) {
+        logConsole.removeChild(logConsole.firstChild);
+      }
+    }
+    setTimeout(updateSandboxLogs, 1200);
+  }
+  updateSandboxLogs();
+
+  // Sandbox Telemetry chart fluctuation
+  const chartCanvas = document.getElementById('sandbox-chart');
+  if (chartCanvas) {
+    const cCtx = chartCanvas.getContext('2d');
+    let chartData = Array.from({ length: 15 }, () => Math.random() * 40 + 30);
+
+    function drawChart() {
+      cCtx.clearRect(0, 0, chartCanvas.width, chartCanvas.height);
+      cCtx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--signal').trim();
+      cCtx.lineWidth = 2.5;
+      cCtx.beginPath();
+
+      const step = chartCanvas.width / (chartData.length - 1);
+      for (let i = 0; i < chartData.length; i++) {
+        const x = i * step;
+        const y = chartCanvas.height - (chartData[i] * (chartCanvas.height / 100));
+        if (i === 0) cCtx.moveTo(x, y);
+        else cCtx.lineTo(x, y);
+      }
+      cCtx.stroke();
+
+      // Fluctuate data
+      chartData.shift();
+      chartData.push(Math.random() * 45 + 25);
+
+      setTimeout(drawChart, 1000);
+    }
+    drawChart();
+  }
+
+  // ── STREAMING_CHUNK: Automated Chat Concierge Logic ── -->
+  function toggleChat() {
+    const chat = document.getElementById('chat-window');
+    chat.classList.toggle('hidden');
+  }
+
+  function sendPrompt(type) {
+    const container = document.getElementById('chat-messages');
+    let clientMsg = "";
+    let systemMsg = "";
+
+    if (type === 'audit') {
+      clientMsg = "🔒 Get a free security audit";
+      systemMsg = "Connecting... Our OSCP Penetration Testing squad is notified. You can submit details in our Briefing contact form below, and we'll escalate your priority queue.";
+    } else if (type === 'estimator') {
+      clientMsg = "💰 Estimate project cost &amp; ROI";
+      systemMsg = "Excellent choice. Our Scoping Laboratories Cost Estimator is located directly on our Home page view. Simply slide the scale controls to generate ROI matrices instantly.";
+    } else if (type === 'consulting') {
+      clientMsg = "📞 Speak with our team";
+      systemMsg = "You can contact our systems hotlines directly at +91-9041375768 or +91-9211218205, or complete our secure briefing form to receive architect allocations.";
+    }
+
+    // Append client message
+    const cDiv = document.createElement('div');
+    cDiv.className = "bg-[var(--signal-dim)] text-[var(--signal-2)] border border-[var(--mist-border)] p-3 rounded-lg max-w-[85%] self-end text-right ml-auto";
+    cDiv.textContent = clientMsg;
+    container.appendChild(cDiv);
+
+    // Append system reply
+    setTimeout(() => {
+      const sDiv = document.createElement('div');
+      sDiv.className = "bg-slate-900/60 p-3 rounded-lg border border-[var(--mist-border)] max-w-[85%] self-start text-slate-200";
+      sDiv.textContent = systemMsg;
+      container.appendChild(sDiv);
+      container.scrollTop = container.scrollHeight;
+    }, 400);
+  }
+
+  // ── STREAMING_CHUNK: Site GDPR & Legal Modals control ── -->
+  function acceptGDPR() {
+    document.getElementById('gdpr-banner').remove();
+  }
+  function openLegalModal(title) {
+    document.getElementById('legal-title').textContent = title;
+    document.getElementById('legal-modal').classList.remove('hidden');
+  }
+  function closeLegalModal() {
+    document.getElementById('legal-modal').classList.add('hidden');
+  }
+
+  // Dynamic Toast Notifications
+  function showNotification(title, message) {
+    const toast = document.createElement('div');
+    toast.className = "fixed bottom-24 right-6 max-w-sm glass-panel border border-[var(--signal)] p-6 rounded-xl shadow-2xl z-[99999] flex flex-col gap-2 transform translate-y-10 opacity-0 transition-all duration-300";
+    toast.innerHTML = `
+      <h4 class="font-inter font-bold text-sm text-white">${title}</h4>
+      <p class="text-[11px] text-slate-400 font-inter leading-relaxed">${message}</p>
+    `;
+    document.body.appendChild(toast);
+    
+    setTimeout(() => {
+      toast.classList.remove('translate-y-10', 'opacity-0');
+    }, 100);
+
+    setTimeout(() => {
+      toast.classList.add('translate-y-10', 'opacity-0');
+      setTimeout(() => toast.remove(), 400);
+    }, 5000);
+  }
+
+  function submitBriefing() {
+    const name = document.getElementById('contact-name').value;
+    showNotification("Briefing Locked Successfully!", `Thank you, ${name}. Your requirements are safely locked in our system queue.`);
+    document.getElementById('contact-name').value = '';
+    document.getElementById('contact-email').value = '';
+    document.getElementById('contact-company').value = '';
+    document.getElementById('contact-phone').value = '';
+    document.getElementById('contact-scope').value = '';
+  }
+</script>
+<!-- MathJax removed: not used on this page -->
+</body>
+</html>
